@@ -1,0 +1,25 @@
+export default interface Data {
+  id: number,
+  hardwareid: string,
+  pspec: string,
+  type: string,
+  generic: string,
+  package: string,
+  leadcount: number,
+  description: string,
+  status: string,
+  comments: string,
+  owner: string,
+  dateModified: string,
+  qtyRequest: number,
+  supplier: string,
+  supplierPartNumber: string,
+  requestor: string,
+  typeacronym: string,
+  barcode: string,
+  serialnumber: string,
+  withtag: string,
+  focusteam: string,
+  tags?: string
+  inUseDuration: number | string
+};

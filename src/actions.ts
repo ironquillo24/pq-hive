@@ -4,30 +4,33 @@ import { revalidatePath } from 'next/cache'
 import { getSheetsData, postSheetData, modifySheetData} from './utils'
 import { redirect } from 'next/navigation'
 
+import { getData, getByHardwareid, updateSingleData } from './mysqlutils'
+
 export async function borrowItem(formData: FormData){
   
 
   const target = Number(formData.get('dataID')) + 1
-  const range = `Masterlist!I${target}:L${target}`
+
+  const hardwareid = formData.get('hardwareID') as string
+
 
   const comments = formData.get('comments') as string
   const owner = formData.get('owner') as string
   const previousOwner = formData.get('previousOwner') as string
   const previousStatus = formData.get('previousStatus') as string
 
-  const currentDate = getCurrentData()
-  const uid = (()=> Date.now().toString(36) + Math.random().toString(36))()
+  const data = await getByHardwareid(hardwareid);
 
-  const data: any = await getSheetsData(range, false)
-
-    if (data[1][0][0].toLowerCase().includes('storage')) {
-      await postSheetData(range, comments, owner, "IN USE", currentDate, uid,previousOwner, previousStatus)
+    if (data.status.toLowerCase().includes('storage')) {
+      
+      const result = await updateSingleData(comments, owner, 'IN USE', data.id)
+      console.log(result)
       revalidatePath('/')
       redirect('/?success=true&successType=borrow')
     } else{
       revalidatePath('/')
       redirect('/?notAvailable=true+hardwareID=1')
-    }
+    } 
 
 }
 
@@ -220,8 +223,6 @@ export async function changeOwner(formData: FormData){
 }
 
 export async function notAvail(formData: FormData){
-
-  const pathname = formData.get('pathname') as string
 
   revalidatePath('/')
   redirect('/')

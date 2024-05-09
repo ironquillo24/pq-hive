@@ -4,16 +4,18 @@ import AddtoCartButton from "./AddtoCartButton"
 import ReturnButton from './ReturnButton'
 import EditButton from "./EditButton"
 import TransferButton from "./TransferButton"
+import Data from "@/dbSchema"
+
 interface ButtonSelectorComponents{
-  data: string[],
+  data: Data,
   user: string
   isAdminActivated: boolean
 }
 
 export default function ButtonSelector({data, user, isAdminActivated}: ButtonSelectorComponents){
 
-  const status: string = data[8].toLowerCase()
-  const owner: string = data[10].toLowerCase()
+  const status = data.status.toLowerCase()
+  const owner = data.owner.toLowerCase()
 
   if (isAdminActivated){
     return <EditButton data={data} user={user} />

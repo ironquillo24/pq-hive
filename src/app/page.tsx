@@ -1,5 +1,5 @@
 import Hardware from "./components/Hardware"
-import { getSheetsData } from "../utils"
+import { getData, getMaintenanceData } from '@/mysqlutils'
 import ModalEditHardware from "./components/ModalEditHardware"
 import ModalAddHardware from "./components/ModalAddHardware"
 import {getSession} from '@/logActions'
@@ -25,20 +25,21 @@ export default async function Home()
   //get all user list
   const fullNameArr = session.fullnameArr!.filter((fullname) => fullname !== session.fullName)
   
- //get data from MasterList sheet
-  const data:any = await getSheetsData("MasterList!A1:V", true)
+ //get data from masterlist with tags
+  const data = await getData(true);
+  const maintenanceData = await getMaintenanceData();
   
   // check if ongoing maintenance and if user is superAdmin
-  const showMaintenance = (data[1][0][0]==='Maintenance')&&!session.isSuperAdmin 
+  const showMaintenance = (maintenanceData[0].flag&&!session.isSuperAdmin)
    
   //show maintenance if maintenance is ongoing and user is not super Admin
-  if(showMaintenance){
+   if(showMaintenance){
     return (
       <>
         <DbMaintenance/>
       </>
     )
-  }
+  }       
   
   //get user and admin info from session
   const user: string = session.fullName!
@@ -52,7 +53,8 @@ export default async function Home()
           hover:bg-slate-100 hover:shadow-md hover:cursor-pointer" >
           <Cart cartItemCount="4"/>
         </div>
-        <ModalEditHardware data={data[1]} user={user}/>
+        
+        <ModalEditHardware data={data} user={user}/>
         <ModalAddHardware user={user}/>
         <ModalChangeOwner fullNameArr={fullNameArr} />
         

@@ -1,25 +1,38 @@
 "use client"
 import {useSearchParams, usePathname} from "next/navigation";
+import { useEffect } from "react";
 import Link from "next/link";
 import {borrowItem} from '../../actions'
 import SubmitButton from "./SubmitButton";
+import Data from "@/dbSchema";
 
+interface ModalBorrowProps {
+    data: Data
+}
 export default function ModalBorrow() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const modalBorrow = searchParams.get("borrowItem");
+
+    const hardwareID = searchParams.get('hardwareID') || '' as string
+    const owner = 'ii'
+    const status = 'ii'
+    const pSpecs = 'i'
+    const  type = 'ii'
+    const description = 'ii'
+    const lastDateModified = 'ii'
+    const user = 'i'
+    const inUseDuration = 'i'
+
+    useEffect(() => {
+
+        if (hardwareID != ''){
+
+        }
+        
+
+    }, [hardwareID])
     
-    const dataID= searchParams.get("dataID") as string
-    const hardwareID = searchParams.get("hardwareID") as string
-    const pSpecs = searchParams.get("pSpecs") as string
-    const type = searchParams.get("type") as string
-    const description = searchParams.get("description") as string
-    const status = searchParams.get("status") as string
-    const comments = searchParams.get("comments") as string
-    const lastDateModified = searchParams.get("lastDateModified") as string
-    const owner = searchParams.get("owner") as string
-    const inUseDuration = searchParams.get("inUseDuration") as string
-    const user = searchParams.get('user') as string
 
         
     return (
@@ -30,7 +43,8 @@ export default function ModalBorrow() {
                 <form action={borrowItem} //borrowItem 
                     className="fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center drop-shadow-md"
                     >
-                    <input type='hidden' id="dataID" name="dataID" value={dataID} />
+                    <input type='hidden' id="dataID" name="dataID" value={hardwareID} />
+                    <input type='hidden' id="hardwareID" name="hardwareID" value={hardwareID} />
                     <input type='hidden' id="previousOwner" name="previousOwner" value={owner} />
                     <input type='hidden' id="previousStatus" name="previousStatus" value={status} />
                     <div className="bg-white m-auto p-8 min-w-[500px] min-h-[550px] flex flex-col justify-items-center ">

@@ -1,30 +1,21 @@
 "use client"
 import { useRouter } from "next/navigation"
+import Data from "@/dbSchema"
 
 interface BorrowButtonComponents{
-  data: string[]
+  data: Data
   user: string
 }
 
 
 export default function ReturnButton({data,user}:BorrowButtonComponents){
 
-  const dataID: string = data[0]
-  const hardwareID: string = data[1]
-  const pSpecs: string = data[2]
-  const type: string = data[3]
-  const description: string = data[7].slice(0,60)
-  const status: string = data[8]
-  const comments: string = data[9].slice(0,60)
-  const lastDateModified: string = data[11]
-  const owner: string = data[10]
-  const inUseDuration: string = data[12]
 
   const router = useRouter();
   const handleClick = () => {
-    const path1 = `?returnItem=true&dataID=${dataID}&hardwareID=${hardwareID}&pSpecs=${pSpecs}&type=${type}&`
-    const path2 = `description=${description}&status=${status}&comments=${comments}&user=${user}&`
-    const path3 = `lastDateModified=${lastDateModified}&owner=${owner}&inUseDuration=${inUseDuration}`
+    const path1 = `?returnItem=true&dataID=${data.id}&hardwareID=${data.hardwareid}&pSpecs=${data.pspec}&type=${data.type}&`
+    const path2 = `description=${data.description}&status=${data.status}&comments=${data.comments}&user=${user}&`
+    const path3 = `lastDateModified=${data.dateModified}&owner=${data.owner}&inUseDuration=${data.inUseDuration}`
     const path = path1+path2+path3
     router.push(path)
   }
