@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import HardwareList from './HardwareList'
-import AdminControls from './AdminControls'
+import AdminControls from './buttons/AdminControls'
 import Data from '@/dbSchema'
 
 

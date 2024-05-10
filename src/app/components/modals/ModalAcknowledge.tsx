@@ -1,13 +1,13 @@
 "use client"
 import {useSearchParams, usePathname} from "next/navigation";
 import Link from "next/link";
-import { returnItem } from '../../actions'
-import SubmitButton from "./SubmitButton";
+import {acknowledge} from '../../../actions'
+import SubmitButton from "../buttons/SubmitButton";
 
-export default function ModalReturn() {
+export default function ModalAcknowledge() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const modalReturn= searchParams.get("returnItem");
+    const modalAcknowledge = searchParams.get("acknowledge");
     
     const dataID= searchParams.get("dataID") as string
     const hardwareID = searchParams.get("hardwareID") as string
@@ -20,25 +20,25 @@ export default function ModalReturn() {
     const owner = searchParams.get("owner") as string
     const inUseDuration = searchParams.get("inUseDuration") as string
     const user = searchParams.get('user') as string
+
         
     return (
         <>
-            {modalReturn &&
+            {modalAcknowledge &&
                 (
                 
-                <form action={returnItem} 
+                <form action={acknowledge}
                     className="fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center drop-shadow-md"
                     >
                     <input type='hidden' id="dataID" name="dataID" value={dataID} />
                     <input type='hidden' id="previousOwner" name="previousOwner" value={owner} />
                     <input type='hidden' id="previousStatus" name="previousStatus" value={status} />
-                    <input type='hidden' name='pathname' value={pathname} />
-                    <div className="bg-white m-auto p-8 min-w-[550px] min-h-[550px] flex flex-col justify-items-center ">
+                    <div className="bg-white m-auto p-8 min-w-[500px] min-h-[550px] flex flex-col justify-items-center ">
                         <div className="flex justify-center">
-                            <div><h2 className="text-[40px] font-bold">Returning Form</h2></div>
+                            <div><h2 className="text-[40px] font-bold">Acknowledgement Form</h2></div>
                         </div>
                         
-                        <div className="grid grid-cols-[180px_350px] min-h-[450px]">
+                        <div className="grid grid-cols-[170px_350px] min-h-[450px]">
                             <div className=' flex items-center font-bold'>Hardware ID:</div>
                             <div className="flex items-center">{hardwareID}</div>
                             <div className='flex items-center font-bold'>P-Specs:</div>
@@ -48,9 +48,9 @@ export default function ModalReturn() {
                             <div className='flex items-center font-bold items-center'>Description:</div>
                             <div className="flex text-xs text-wrap items-center">{description}...</div>
                             <div className='flex items-center font-bold'>Status:</div>
-                            <div className="flex items-center"><s>{status}</s> ➠<span className="font-bold text-red-700">RETURNED</span></div>
-                            <div className='flex items-center font-bold'>Comments on location:</div> 
-                            <input type='text' id="comments" name="comments" placeholder="ex. At PQ Hive drawer" className="border-solid border-2 border-gray-300 p-1" maxLength={60} required/>
+                            <div className="flex items-center"><s>{status}</s> ➠<span className="font-bold text-red-700">IN STORAGE</span></div>
+                            <div className='flex items-center font-bold'>Comments on loc/act:</div> 
+                            <input type='text' id="comments" name="comments" defaultValue={comments} className="border-solid border-2 border-gray-300 p-1" maxLength={60} required />
                             {/* <div>{comments}</div> */}
                             <div className='flex items-center font-bold'>Last Date Modified:</div>
                             <div className="flex items-center">{lastDateModified}</div>
@@ -62,11 +62,11 @@ export default function ModalReturn() {
                                 
                             </div>
                             <div className='flex items-center font-bold'>In Use Duration(days):</div>
-                            <div className="flex items-center">{inUseDuration} days</div>
+                            <div className="flex items-center">{inUseDuration}</div>
                         </div>
                         
                         <div className="flex flex-row justify-items-stretch ">
-                             <SubmitButton buttonText="Return" /> 
+                             <SubmitButton buttonText="Acknowledge"/> 
                             <Link href={pathname}>
                                 <button type="button" className="bg-red-500 text-white p-2 ml-[100px] rounded">Cancel</button>
                             </Link>

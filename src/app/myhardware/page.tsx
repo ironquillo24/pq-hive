@@ -4,7 +4,7 @@ import { getSheetsData } from "../../utils"
 import DbMaintenance from "../components/DbMaintenance"
 import ButtonSelector from "../components/ButtonSelector"
 import { redirect } from 'next/navigation'
-import ModalChangeOwner from "../components/ModalChangeOwner"
+import ModalChangeOwner from "../components/modals/ModalChangeOwner"
 
 export default async function MyHardware(){
 

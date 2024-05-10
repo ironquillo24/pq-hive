@@ -1,9 +1,9 @@
-import BorrowButton from "./BorrowButton"
-import BorrowFromOwner from "./BorrowFromOwner"
-import AddtoCartButton from "./AddtoCartButton"
-import ReturnButton from './ReturnButton'
-import EditButton from "./EditButton"
-import TransferButton from "./TransferButton"
+import BorrowButton from "./buttons/BorrowButton"
+import BorrowFromOwner from "./buttons/BorrowFromOwner"
+import AddtoCartButton from "./buttons/AddtoCartButton"
+import ReturnButton from './buttons/ReturnButton'
+import EditButton from "./buttons/EditButton"
+import TransferButton from "./buttons/TransferButton"
 import Data from "@/dbSchema"
 
 interface ButtonSelectorComponents{

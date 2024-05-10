@@ -1,10 +1,10 @@
 import { getSession } from "@/logActions"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
-import DbMaintenanceButton from "../components/DbMaintenanceButton"
+import DbMaintenanceButton from "../components/buttons/DbMaintenanceButton"
 import { dbMaintenance } from "@/superAdminActions"
 import { getSheetsData } from "../../utils"
-import DeleteHardwareButton from "../components/DeleteHardwareButton"
+import DeleteHardwareButton from "../components/buttons/DeleteHardwareButton"
 import Link from "next/link"
 
 export default async function Admin(){

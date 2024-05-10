@@ -1,11 +1,11 @@
 import Hardware from "./components/Hardware"
 import { getData, getMaintenanceData } from '@/mysqlutils'
-import ModalEditHardware from "./components/ModalEditHardware"
-import ModalAddHardware from "./components/ModalAddHardware"
+import ModalEditHardware from "./components/modals/ModalEditHardware"
+import ModalAddHardware from "./components/modals/ModalAddHardware"
 import {getSession} from '@/logActions'
 import DbMaintenance from "./components/DbMaintenance"
 import { redirect } from "next/navigation"
-import ModalChangeOwner from "./components/ModalChangeOwner"
+import ModalChangeOwner from "./components/modals/ModalChangeOwner"
 import Cart from "./components/Cart"
 
 export const dynamic = 'force-dynamic'

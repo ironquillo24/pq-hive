@@ -1,11 +1,11 @@
 "use client"
 import {useSearchParams, usePathname} from "next/navigation";
 import Link from "next/link";
-import {editItem} from '../../actions'
-import SubmitButton from "./SubmitButton";
-import './components.css'
+import {editItem} from '../../../actions'
+import SubmitButton from "../buttons/SubmitButton";
+import '../components.css'
 import Data from  '@/dbSchema'
-import Hardware from "./Hardware";
+import Hardware from "../Hardware";
 
 interface ModalEditHardwareComponents{
   data: Data[]

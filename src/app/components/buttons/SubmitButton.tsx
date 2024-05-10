@@ -28,7 +28,7 @@ export default function SubmitButton({buttonText}:SubmitButtonComponents) {
 
   return (<>
     
-    {pending ? <div className="bg-gray-700 text-white p-2 ml-[100px] rounded select-none">
+    {pending ? <div className="bg-gray-700 text-white p-2 rounded select-none ml-[100px]">
       <p>{loadingText}</p>
     </div> :
     <button type="submit" className="bg-green-500 text-white p-2 ml-[100px] rounded hover:bg-green-700"

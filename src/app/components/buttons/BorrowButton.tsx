@@ -1,6 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation"
 import Data from "@/dbSchema"
+import { useRef } from 'react';
 
 interface BorrowButtonComponents{
   data: Data
@@ -9,16 +10,11 @@ interface BorrowButtonComponents{
 
 export default function BorrowButton({data,user}: BorrowButtonComponents){
 
-
-
   const router = useRouter();
   const handleClick = () => {
-    const path1 = `?borrowItem=true&dataID=${data.id}&hardwareID=${data.hardwareid}&pSpecs=${data.pspec}&type=${data.type}&`
-    const path2 = `description=${data.description}&status=${data.status}&comments=${data.comments}&user=${user}&`
-    const path3 = `lastDateModified=${data.dateModified}&owner=${data.owner}&inUseDuration=${data.inUseDuration}`
-    const path = path1+path2+path3
-    //router.push(`?borrowItem=true&hardwareID=${data.hardwareid}`)
-    router.push(`borrow/${data.hardwareid}`)
+    const path = `?borrowItem=true&hardwareID=${data.hardwareid}`
+
+    router.push(path)
   }
 
   return (<>

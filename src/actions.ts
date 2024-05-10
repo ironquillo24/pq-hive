@@ -24,9 +24,8 @@ export async function borrowItem(formData: FormData){
     if (data.status.toLowerCase().includes('storage')) {
       
       const result = await updateSingleData(comments, owner, 'IN USE', data.id)
-      console.log(result)
       revalidatePath('/')
-      redirect('/?success=true&successType=borrow')
+      redirect('/')
     } else{
       revalidatePath('/')
       redirect('/?notAvailable=true+hardwareID=1')
@@ -225,5 +224,5 @@ export async function changeOwner(formData: FormData){
 export async function notAvail(formData: FormData){
 
   revalidatePath('/')
-  redirect('/')
+  redirect('/', 'replace')
 }

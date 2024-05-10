@@ -1,8 +1,11 @@
+'use server'
 import mysql from 'mysql2'
 import Data from "@/dbSchema";
 import { ResultSetHeader } from 'mysql2';
 
+import {createPool, Pool} from 'mysql2/promise';
 
+let globalPool: Pool | undefined = undefined;
 
 export async function getData(withTags: boolean){
 
@@ -16,11 +19,11 @@ export async function getData(withTags: boolean){
   try{
     let result;
     if (withTags){
-     result = await pool.query("SELECT *, CONCAT(hardwareid,pspec,type,generic,package,description,status,owner,supplier) AS tags, DATEDIFF(datemodified,NOW()) as inUseDuration  from masterlist;")
+     result = await pool.query("SELECT *, CONCAT(hardwareid,pspec,type,generic,package,description,status,owner,supplier) AS tags, DATEDIFF(NOW(),datemodified) as inUseDuration  from masterlist;")
     } else {
        result = await pool.query("SELECT * from masterlist;")
     }
-
+    pool.end()
     const data = result[0] as Data[]
     
     return data
@@ -41,8 +44,10 @@ export async function getByHardwareid(hardwareID: string){
     database: process.env.MYSQL_DATABASE
   }).promise()
   
+    console.log('getting ', hardwareID)
   try{
-    const result = await pool.query(`SELECT *,DATEDIFF(datemodified,NOW()) as inUseDuration from masterlist WHERE hardwareid = ?`, hardwareID)
+    const result = await pool.query(`SELECT *,DATEDIFF(NOW(),datemodified) as inUseDuration from masterlist WHERE hardwareid = ?`, hardwareID)
+    pool.end()
 
     const data = result[0] as Data[]
     

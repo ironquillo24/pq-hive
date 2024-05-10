@@ -1,4 +1,4 @@
-import LoginForm from "@/app/components/LoginForm"
+import LoginForm from "@/app/components/forms/LoginForm"
 import { getSession } from "@/logActions"
 import { redirect } from "next/navigation"
 import Image from "next/image"

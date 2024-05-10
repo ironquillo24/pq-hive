@@ -1,7 +1,7 @@
 'use client'
 import { login } from "@/logActions"
 import { useFormState } from "react-dom"
-import LoginButton from "./LoginButton"
+import LoginButton from "../buttons/LoginButton"
 
 export default function LoginForm(){
 

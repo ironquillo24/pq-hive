@@ -1,10 +1,11 @@
 import "./globals.css";
 import NavBar from "./components/NavBar"
 import Header from "./components/Header";
-import ModalReturn from "./components/ModalReturn";
-import ModalSuccess from "./components/ModalSuccess";
-import ModalNotAvailable from "./components/NotAvailable";
-import ModalBorrow from "./components/ModalBorrow"
+import ModalReturn from "./components/modals/ModalReturn";
+import ModalSuccess from "./components/modals/ModalSuccess";
+import ModalNotAvailable from "./components/modals/ModalNotAvailable";
+import ModalBorrow from "./components/modals/ModalBorrow"
+import { ReactQueryProvider } from "./components/ReactQueryProvider";
 
 export const metadata = {
   title: 'My App',
@@ -14,7 +15,7 @@ export const metadata = {
 export default function RootLayout(
   props: {
   children: React.ReactNode,
-  modals: React.ReactNode;
+  transact: React.ReactNode;
 }) {
   <link rel="icon" href="/favicon.ico" sizes="any" />
   const isDark = false
@@ -23,14 +24,17 @@ export default function RootLayout(
     <html lang="en">
       <body className={`font-sans${bgColor}`}>
         <header className="w-full min-w-screen"><Header/></header>
-        <main>
-          {props.children}
-        </main>
-        {props.modals}
-{/*         <ModalBorrow />
-        <ModalReturn />
+        <ReactQueryProvider>
+          <main>
+            {props.children}
+          </main>
+        {/*  {props.transact} */}
+          <ModalBorrow />
+          <ModalNotAvailable/>
+        </ReactQueryProvider>
+{/*         <ModalReturn />
         <ModalSuccess />
-        <ModalNotAvailable/> */}
+          */}
       </body>
     </html>
   )

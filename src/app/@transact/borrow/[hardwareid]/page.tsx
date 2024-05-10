@@ -1,33 +1,29 @@
-'use server'
-import ModalTransact from "../modal"
-import { borrowItem } from "@/actions"
-import SubmitButton from "@/app/components/SubmitButton"
-import { getByHardwareid } from "@/mysqlutils"
-import BackButton from "@/app/components/BackButton"
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-import NotAvailable from "@/app/components/NotAvailable"
+import { borrowItem } from "@/actions";
+import SubmitButton from "@/app/components/buttons/SubmitButton";
+import { redirect } from "next/navigation";
+import { getSession } from "@/logActions";
+import { getByHardwareid } from "@/mysqlutils";
+import BackButton from "@/app/components/buttons/BackButton";
 
-export default async function BorrowModal({ params }: { params: { hardwareid: string } }){
+export const dynamic = 'force-dynamic'
 
+export default async function BorrowPage({ params }: { params: { hardwareid: string } }){
+    
+    console.log('borrowingggg')
+    const session = await getSession()
 
-  const hardware = await getByHardwareid(params.hardwareid)
-
-  const user = 'Christian Oliver Ronquillo'
-
-  if (!hardware.status.toLowerCase().includes('storage'))
-    {
-      revalidatePath('/')
-      return <ModalTransact>
-                <NotAvailable />
-             </ModalTransact>
+    if (!session.isLoggedIn){
+      redirect('/')
     }
+  
+    const user = session.fullName
+  
+    const hardware = await getByHardwareid(params.hardwareid)
 
-  console.log('borrowmodal on')
-
-  return (
-    <ModalTransact>
-      <form action={borrowItem} >
+  return(
+      <div  className="fixed w-full h-full top-0 pt-[30px] left-0 bg-black bg-opacity-50 z-50 backdrop-blur overflow-auto flex
+      justify-center">
+        <form action={borrowItem} >
         <input type='hidden' id="hardwareID" name="hardwareID" value={hardware.hardwareid} />
         <input type='hidden' id="previousOwner" name="previousOwner" value={hardware.owner} />
         <input type='hidden' id="previousStatus" name="previousStatus" value={hardware.status} />
@@ -70,6 +66,6 @@ export default async function BorrowModal({ params }: { params: { hardwareid: st
             </div>
         </div>
       </form>
-   </ModalTransact>
-  )
+    </div>
+  );
 }

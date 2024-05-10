@@ -1,9 +1,9 @@
 "use client"
 import {useSearchParams, usePathname} from "next/navigation";
 import Link from "next/link";
-import {addItem} from '../../actions'
-import SubmitButton from "./SubmitButton";
-import './components.css'
+import {addItem} from '../../../actions'
+import SubmitButton from "../buttons/SubmitButton";
+import '../components.css'
 
 interface ModalAddHardwareComponents{
   user: string

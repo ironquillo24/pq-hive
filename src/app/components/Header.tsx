@@ -1,7 +1,7 @@
 import { getSession } from "@/logActions"
 import NavBar from "./NavBar"
 import Image from "next/image"
-import LogoutForm from "./logoutForm"
+import LogoutForm from "./forms/logoutForm"
 
 const Header = async () =>{
 

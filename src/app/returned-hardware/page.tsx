@@ -1,6 +1,6 @@
 import { getSheetsData } from '../../utils'
-import AcknowledgeButton  from '../components/AcknowledgeButton'
-import ModalAcknowledge from '../components/ModalAcknowledge'
+import AcknowledgeButton  from '../components/buttons/AcknowledgeButton'
+import ModalAcknowledge from '../components/modals/ModalAcknowledge'
 import { getSession } from '@/logActions'
 import { redirect } from "next/navigation"
 
