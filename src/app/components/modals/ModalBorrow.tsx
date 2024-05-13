@@ -1,33 +1,39 @@
 "use client"
-import {useSearchParams, usePathname} from "next/navigation";
-import { useEffect, useState } from "react";
+import {useSearchParams, usePathname, redirect} from "next/navigation";
 import Link from "next/link";
 import {borrowItem} from '../../../actions'
 import SubmitButton from "../buttons/SubmitButton";
-import Data from "@/dbSchema";
-import { getByHardwareid } from "@/mysqlutils";
-import defaultData from "@/app/defaultData";
-import { useQuery } from "@tanstack/react-query";
-import { useGetDataById } from "@/app/data/get-data";
+import { useGetHardwareAndUser } from "@/app/data/get-data";
+import { useRouter } from "next/navigation";
 
-interface ModalBorrowProps {
-    data: Data
-}
 export default function ModalBorrow() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
+    const router = useRouter();
 
-    const modalBorrow = searchParams.get("borrowItem");
+    const modalBorrow = searchParams.get("borrowItem")
     const hardwareID = searchParams.get('hardwareID') || '' as string
-    console.log(hardwareID)
+    
+   /*  const {data: hardware , isLoading, isError } = useGetDataById(hardwareID,'borrow'); */
 
-    const {data: hardware , isLoading, isError, refetch } = useGetDataById(hardwareID);
+   
+    const data = useGetHardwareAndUser(hardwareID,'borrow', false)
+    const hardware = data[0].data
+    const user = data[1].data
+    const userFullname = user?.fullName
 
-    //add redirect if in use
+    console.log(hardware)
 
     console.log('mounting borrow')
-    
-    const user = 'Christian Oliver Ronquillo'
+
+    //no queries yet
+    if (hardware === undefined){
+        return null
+    }
+    //redirect if harware is not existing or not in storage when modalBorrow is being pulled
+if ((modalBorrow==='true')&&((hardware.hardwareid === '')||(hardware.status!=='IN STORAGE'))){
+        router.replace(`${pathname}?notAvailable=true`)
+    }
 
     return (
         <>
@@ -37,8 +43,7 @@ export default function ModalBorrow() {
                 <form action={borrowItem} //borrowItem 
                     className="fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center drop-shadow-md"
                     >
-                    <input type='hidden' id="dataID" name="dataID" value={hardwareID} />
-                    <input type='hidden' id="hardwareID" name="hardwareID" value={hardwareID} />
+                    <input type='hidden' id="dataID" name="dataID" value={hardware.hardwareid} />
                     <input type='hidden' id="previousOwner" name="previousOwner" value={hardware?.owner} />
                     <input type='hidden' id="previousStatus" name="previousStatus" value={hardware?.status} />
                     <div className="bg-white m-auto p-8 min-w-[500px] min-h-[550px] flex flex-col justify-items-center ">
@@ -65,7 +70,7 @@ export default function ModalBorrow() {
                             <div className='flex items-center font-bold'>Owner:</div>
                             <div className="flex items-center justify-items-stretch">
                                 <div><span><s>{hardware?.owner}</s> ➠   </span></div>
-                                <div><input type='text' name="owner" id="owner" value={user} readOnly
+                                <div><input type='text' name="owner" id="owner" value={userFullname} readOnly
                                 className="border-solid border-2 border-gray-300 p-2 ml-2"/></div>
                                 
                             </div>

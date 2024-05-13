@@ -9,7 +9,6 @@ import ModalChangeOwner from "../components/modals/ModalChangeOwner"
 export default async function MyHardware(){
 
   const session = await getSession()
-  const fullNameArr: string[] = session.fullnameArr!.filter((fullname) => fullname !== session.fullName)
 
      //redirect user if not loggedin
      if (!session.isLoggedIn){
@@ -75,7 +74,6 @@ export default async function MyHardware(){
 
     }
     
-  <ModalChangeOwner fullNameArr={fullNameArr} />
 </div>)
 }
 

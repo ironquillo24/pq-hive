@@ -27,13 +27,6 @@ export const login = async(
     const userDataSheet:any = await getSheetsData('UserData!A1:L',false)
     const userData: string[][] = userDataSheet[1]
     
-    let fullnameArr: string[] = []
-
-    for (const user of userData){
-      if (user[5]!=='Full Name')
-        fullnameArr.push(user[5])
-    }
-   
 
     let username: string = ''
     let isAdmin: boolean = false
@@ -77,7 +70,6 @@ export const login = async(
     session.nickName = nickName
     session.isLoggedIn = true
     session.isSuperAdmin = isSuperAdmin
-    session.fullnameArr = fullnameArr
 
     await session.save()
     revalidatePath('/')

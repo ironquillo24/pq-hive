@@ -1,5 +1,5 @@
 'use server'
-import RegisterForm from '@/app/components/RegisterForm'
+import RegisterForm from '@/app/components/forms/RegisterForm'
 import { getSession } from '@/logActions'
 import { redirect } from 'next/navigation'
 

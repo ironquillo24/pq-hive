@@ -1,11 +1,10 @@
 'use server'
 import mysql from 'mysql2'
 import Data from "@/dbSchema";
-import { ResultSetHeader } from 'mysql2';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
-import {createPool, Pool} from 'mysql2/promise';
-
-let globalPool: Pool | undefined = undefined;
+import {createPool, FieldPacket, Pool} from 'mysql2/promise';
+import defaultData from './defaultData';
 
 export async function getData(withTags: boolean){
 
@@ -35,6 +34,7 @@ export async function getData(withTags: boolean){
 
 }
 
+
 export async function getByHardwareid(hardwareID: string){
 
   const pool= mysql.createPool({
@@ -48,8 +48,12 @@ export async function getByHardwareid(hardwareID: string){
   try{
     const result = await pool.query(`SELECT *,DATEDIFF(NOW(),datemodified) as inUseDuration from masterlist WHERE hardwareid = ?`, hardwareID)
     pool.end()
-
     const data = result[0] as Data[]
+
+
+    if (data[0] === undefined){
+      return defaultData
+    }
     
     return data[0]
   
@@ -77,6 +81,7 @@ export async function getMaintenanceData(){
   
   try{
     const result = await pool.query("SELECT * from maintenance_table;")
+    pool.end()
 
     const data = result[0] as MaintanaceData[]
     
@@ -100,11 +105,63 @@ export async function updateSingleData(comments: string, owner: string, status: 
   
   try{
     const result = await pool.query(`UPDATE masterlist SET comments = ?, owner = ?, status = ? WHERE id = ?`, [comments, owner, status, id])
+    pool.end()
     
     return result[0] as ResultSetHeader
   
   } catch (err) {
-    console.error("Error fetching data from db")
+    console.error("Error updating single data to db")
     throw err;
   }
+}
+
+export async function updateLogs(logid: string, previousOwner: string, previousStatus: string, newStatus: string, newOwner: string, comments: string){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  try{
+    const result = await pool.query(
+      `INSERT INTO log_schema (logid,previousOwner,previousStatus,newStatus,newOwner,comments) VALUES (?,?,?,?,?,?)`,
+      [logid,previousOwner,previousStatus,newStatus,newOwner,comments]
+    )
+    pool.end()
+    
+    return result[0] as ResultSetHeader
+  
+  } catch (err) {
+    console.error("Error posting data to db")
+    throw err;
+  }
+}
+
+export interface usersFullname{
+  fullname: string
+}
+export async function getAllUsers(){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  try{
+    const result = await pool.query(`SELECT CONCAT(givenname,' ',lastname) AS fullname FROM user_schema;`)
+    pool.end()
+    
+    const data = result[0] as usersFullname[]
+    
+    return data
+  
+  } catch (err) {
+    console.error("Error posting data to db")
+    throw err;
+  }
+
 }

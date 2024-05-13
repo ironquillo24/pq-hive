@@ -22,8 +22,6 @@ export default async function Home()
     redirect('/login')
   }
   
-  //get all user list
-  const fullNameArr = session.fullnameArr!.filter((fullname) => fullname !== session.fullName)
   
  //get data from masterlist with tags
   const data = await getData(true);
@@ -56,7 +54,7 @@ export default async function Home()
         
         <ModalEditHardware data={data} user={user}/>
         <ModalAddHardware user={user}/>
-        <ModalChangeOwner fullNameArr={fullNameArr} />
+       {/*  <ModalChangeOwner fullNameArr={fullNameArr} /> */}
         
       </div>
        

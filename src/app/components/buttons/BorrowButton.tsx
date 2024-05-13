@@ -14,7 +14,7 @@ export default function BorrowButton({data,user}: BorrowButtonComponents){
   const handleClick = () => {
     const path = `?borrowItem=true&hardwareID=${data.hardwareid}`
 
-    router.push(path)
+    router.push(path, { scroll: false })
   }
 
   return (<>

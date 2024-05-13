@@ -2,22 +2,18 @@
 import { useRouter } from "next/navigation"
 import Data from "@/dbSchema"
 
-interface BorrowButtonComponents{
+interface ReturnButtonProps{
   data: Data
   user: string
 }
 
 
-export default function ReturnButton({data,user}:BorrowButtonComponents){
-
+export default function ReturnButton({data,user}:ReturnButtonProps){
 
   const router = useRouter();
   const handleClick = () => {
-    const path1 = `?returnItem=true&dataID=${data.id}&hardwareID=${data.hardwareid}&pSpecs=${data.pspec}&type=${data.type}&`
-    const path2 = `description=${data.description}&status=${data.status}&comments=${data.comments}&user=${user}&`
-    const path3 = `lastDateModified=${data.dateModified}&owner=${data.owner}&inUseDuration=${data.inUseDuration}`
-    const path = path1+path2+path3
-    router.push(path)
+    const path = `?returnItem=true&hardwareID=${data.hardwareid}`
+    router.push(path, {scroll: false})
   }
 
 

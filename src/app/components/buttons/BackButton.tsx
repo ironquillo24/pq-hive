@@ -1,13 +1,15 @@
 'use client'
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation'
 
 const BackButton = () => {
 
   const router = useRouter()
+  const path = usePathname();
 
   const onCancel = () => {
 
-    router.back()
+    router.replace(path, {scroll: false})
   }
 
   return(

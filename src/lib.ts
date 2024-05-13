@@ -8,7 +8,6 @@ export interface SessionData{
   isAdmin?: boolean,
   isSuperAdmin?: boolean,
   isLoggedIn: boolean
-  fullnameArr?: string[]
 }
 
 export const defaultSession: SessionData ={

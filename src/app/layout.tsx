@@ -6,6 +6,7 @@ import ModalSuccess from "./components/modals/ModalSuccess";
 import ModalNotAvailable from "./components/modals/ModalNotAvailable";
 import ModalBorrow from "./components/modals/ModalBorrow"
 import { ReactQueryProvider } from "./components/ReactQueryProvider";
+import ModalChangeOwner from "./components/modals/ModalChangeOwner";
 
 export const metadata = {
   title: 'My App',
@@ -20,21 +21,22 @@ export default function RootLayout(
   <link rel="icon" href="/favicon.ico" sizes="any" />
   const isDark = false
   const bgColor = isDark? 'bg-slate-900' : 'bg-gradient-to-r from-neutral-50 to-neutral-200'
+
   return (
     <html lang="en">
       <body className={`font-sans${bgColor}`}>
+      <ReactQueryProvider>
         <header className="w-full min-w-screen"><Header/></header>
-        <ReactQueryProvider>
+        
           <main>
             {props.children}
           </main>
-        {/*  {props.transact} */}
           <ModalBorrow />
           <ModalNotAvailable/>
-        </ReactQueryProvider>
-{/*         <ModalReturn />
-        <ModalSuccess />
-          */}
+          <ModalReturn />
+          <ModalSuccess />
+          <ModalChangeOwner />
+      </ReactQueryProvider>
       </body>
     </html>
   )
