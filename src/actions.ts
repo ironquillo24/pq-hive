@@ -224,5 +224,5 @@ export async function changeOwner(formData: FormData){
 export async function notAvail(formData: FormData){
 
   revalidatePath('/')
-  redirect('/', 'replace')
+  redirect('/')
 }

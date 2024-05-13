@@ -23,6 +23,8 @@ export default function ModalBorrow() {
 
     const {data: hardware , isLoading, isError, refetch } = useGetDataById(hardwareID);
 
+    //add redirect if in use
+
     console.log('mounting borrow')
     
     const user = 'Christian Oliver Ronquillo'
