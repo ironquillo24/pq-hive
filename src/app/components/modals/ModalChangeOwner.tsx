@@ -1,29 +1,41 @@
 "use client"
-import {useSearchParams, usePathname} from "next/navigation";
+import {useSearchParams, usePathname, useRouter} from "next/navigation";
 import Link from "next/link";
 import SubmitButton from "../buttons/SubmitButton";
 import { changeOwner } from "../../../actions"
-import { useGetHardwareAndUser } from "@/app/data/get-data";
+import { useGetHardwareAndUser } from "@/get-client-data";
 
 export default function ModalChangeOwner() {
 
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const router = useRouter()
 
-    const ModalChangeOwner = searchParams.get("transferItem");
+    const modalChangeOwner = searchParams.get("transferItem");
     const hardwareID = searchParams.get('hardwareID') || '' as string
    
-    const data = useGetHardwareAndUser(hardwareID,'borrow', false)
-    const hardware = data[0].data! 
+    const getData = modalChangeOwner === 'true'
+    const data = useGetHardwareAndUser(hardwareID,'transfer', getData, true)
+    const hardware = data[0].data!
+    const currentUser = data[1].data
     const usersFullname = data[2].data!
+
+    //no queries yet
+    if (hardware === undefined){
+        return null
+    }
+
+    //redirect if harware is not existing or not in storage when modalBorrow is being pulled
+    if ((modalChangeOwner==='true')&&((hardware.hardwareid === '')||(hardware.owner!==currentUser))){
+        router.replace(`${pathname}?notAvailable=true`)
+    }
     
     let fullNameArr: string[] = []
-    usersFullname?.map((user) => fullNameArr.push(user.fullname))
-    console.log(fullNameArr)
+    usersFullname?.map((user) => (user.fullname!==currentUser) ? fullNameArr.push(user.fullname) : null)
 
     return (
         <>
-            {ModalChangeOwner &&
+            {modalChangeOwner &&
                 (
                 
                 <form action={changeOwner} //borrowItem 
@@ -38,7 +50,7 @@ export default function ModalChangeOwner() {
                             <div><h2 className="text-[40px] font-bold">Change Owner Form</h2></div>
                         </div>
                         
-                        <div className="grid grid-cols-[170px_350px] min-h-[450px]">
+                        <div className="grid grid-cols-[170px_420px] min-h-[450px]">
                             <div className=' flex items-center font-bold'>Hardware ID:</div>
                             <div className="flex items-center">{hardware?.hardwareid}</div>
                             <div className='flex items-center font-bold'>P-Specs:</div>
@@ -70,8 +82,8 @@ export default function ModalChangeOwner() {
                         
                         <div className="flex flex-row justify-items-stretch ">
                              <SubmitButton buttonText="Transfer"/> 
-                            <Link href={pathname}>
-                                <button type="button" className="bg-red-500 text-white p-2 ml-[100px] rounded">Cancel</button>
+                            <Link href={pathname} className="bg-red-500 text-white p-2 rounded ml-[200px]" scroll={false}>
+                                Cancel
                             </Link>
                             
                         </div>

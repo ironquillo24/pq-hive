@@ -4,7 +4,7 @@ import Link from "next/link";
 import {editItem} from '../../../actions'
 import SubmitButton from "../buttons/SubmitButton";
 import '../components.css'
-import Data from  '@/dbSchema'
+import {Data} from  '@/dbSchema'
 import Hardware from "../Hardware";
 
 interface ModalEditHardwareComponents{

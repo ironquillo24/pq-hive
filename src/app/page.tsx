@@ -1,12 +1,9 @@
 import Hardware from "./components/Hardware"
 import { getData, getMaintenanceData } from '@/mysqlutils'
-import ModalEditHardware from "./components/modals/ModalEditHardware"
-import ModalAddHardware from "./components/modals/ModalAddHardware"
 import {getSession} from '@/logActions'
 import DbMaintenance from "./components/DbMaintenance"
 import { redirect } from "next/navigation"
-import ModalChangeOwner from "./components/modals/ModalChangeOwner"
-import Cart from "./components/Cart"
+import Cart from "./components/buttons/Cart"
 
 export const dynamic = 'force-dynamic'
 
@@ -29,6 +26,7 @@ export default async function Home()
   
   // check if ongoing maintenance and if user is superAdmin
   const showMaintenance = (maintenanceData[0].flag&&!session.isSuperAdmin)
+
    
   //show maintenance if maintenance is ongoing and user is not super Admin
    if(showMaintenance){
@@ -47,14 +45,9 @@ export default async function Home()
     <>
       <div className="flex relative">
         { data? <Hardware hardwareData={data} user={user} isAdmin={isAdmin} /> : <p>no data</p> }
-        <div  className="fixed right-4 bottom-4 border-solid border-2 p-4 bg-white rounded-full
-          hover:bg-slate-100 hover:shadow-md hover:cursor-pointer" >
-          <Cart cartItemCount="4"/>
-        </div>
         
-        <ModalEditHardware data={data} user={user}/>
-        <ModalAddHardware user={user}/>
-       {/*  <ModalChangeOwner fullNameArr={fullNameArr} /> */}
+{/*         <ModalEditHardware data={data} user={user}/>
+        <ModalAddHardware user={user}/> */}
         
       </div>
        

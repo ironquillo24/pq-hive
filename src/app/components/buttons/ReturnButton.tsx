@@ -1,14 +1,13 @@
 "use client"
 import { useRouter } from "next/navigation"
-import Data from "@/dbSchema"
+import { Data } from "@/dbSchema"
 
 interface ReturnButtonProps{
   data: Data
-  user: string
 }
 
 
-export default function ReturnButton({data,user}:ReturnButtonProps){
+export default function ReturnButton({data}:ReturnButtonProps){
 
   const router = useRouter();
   const handleClick = () => {

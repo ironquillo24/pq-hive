@@ -1,20 +1,19 @@
 "use client"
 import { useRouter } from "next/navigation"
-import Data from "@/dbSchema"
+import { Data } from "@/dbSchema"
 
 interface TransferButtonProps{
   data: Data
-  user: string
 }
 
 
-export default function TransferButton({data,user}:TransferButtonProps){
+export default function TransferButton({data}:TransferButtonProps){
 
 
   const router = useRouter();
   const handleClick = () => {
     const path = `?transferItem=true&hardwareID=${data.hardwareid}`
-    router.push(path)
+    router.push(path, {scroll: false})
   }
 
 

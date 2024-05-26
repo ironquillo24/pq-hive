@@ -26,9 +26,9 @@ export default function RootLayout(
     <html lang="en">
       <body className={`font-sans${bgColor}`}>
       <ReactQueryProvider>
-        <header className="w-full min-w-screen"><Header/></header>
+        <header className="fixed w-full min-w-screen z-[10] bg-white"><Header/></header>
         
-          <main>
+          <main className="pt-[65px]">
             {props.children}
           </main>
           <ModalBorrow />

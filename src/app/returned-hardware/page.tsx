@@ -1,8 +1,10 @@
-import { getSheetsData } from '../../utils'
+import { getData, getMaintenanceData } from '@/mysqlutils'
+import DbMaintenance from "../components/DbMaintenance"
 import AcknowledgeButton  from '../components/buttons/AcknowledgeButton'
 import ModalAcknowledge from '../components/modals/ModalAcknowledge'
 import { getSession } from '@/logActions'
 import { redirect } from "next/navigation"
+import { Data } from '@/dbSchema'
 
 export default async function ReturnedHardware(){
 
@@ -14,20 +16,22 @@ export default async function ReturnedHardware(){
     redirect('/login')
   }
 
-  const data:any = await getSheetsData("MasterList!A1:M", false)
+  const data = await getData(true);
+  const maintenanceData = await getMaintenanceData();
 
+  // check if ongoing maintenance and if user is superAdmin
+  const showMaintenance = (maintenanceData[0].flag&&!session.isSuperAdmin)
 
-   if((data[1][0][0]==='Maintenance')&&!session.isSuperAdmin){
+  if(showMaintenance){
     return (
       <>
-        <div>Ongoing Maintenance</div>
+        <DbMaintenance/>
       </>
     )
   }
-
   const user = session.fullName!
 
-  const filteredData: string[][] = filterData(data,'RETURNED')
+  const filteredData = filterData(data,'RETURNED')
   
   let isDataAvail = true
   if (filteredData.length === 0){
@@ -51,19 +55,19 @@ export default async function ReturnedHardware(){
         </div>
         <ul>
               {
-                filteredData.map((row)=>{
+                filteredData.map((hardware)=>{
 
                   return(
-                    <li key={row[0]}>
+                    <li key={hardware.id}>
                       <div className={`grid grid-cols-[130px_100px_150px_100px_250px_170px_150px_200px] border-2 border-gray-200 max-w-[1500px] hover:bg-slate-200`}>
-                        <div className='flex justify-center items-center min-h-[35px]'><AcknowledgeButton data={row} user={user} /></div>
-                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{row[8]}</div>
-                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{row[1]}</div>
-                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{row[2]}</div>
-                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{row[7].slice(0,50)}</div>
-                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{row[10]}</div>
-                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{row[9].slice(0,50)}</div>
-                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{row[11]}</div>
+                        <div className='flex justify-center items-center min-h-[35px]'><AcknowledgeButton data={hardware}/></div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.status}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.hardwareid}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.pspec}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.description.slice(0,50)}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.owner}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.comments.slice(0,50)}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{String(hardware.dateModified)}</div>
                       </div>
                     </li>
                   )
@@ -81,20 +85,22 @@ export default async function ReturnedHardware(){
   </div>)
 }
 
-const filterData = (data: any, searchWord: string) => {
+const filterData = (data: Data[], searchWord: string) => {
 
   let searchedData = [];
 
   searchWord = searchWord.toLowerCase();
 
-  for (const row of data[1]){
+  let index = 0;
+  for (const hardware of data){
     
-    const status = row[8].toLowerCase();
+    const status = hardware.status.toLowerCase();
 
     if (status.includes(searchWord)){
       
-      searchedData.push(data[1][Number(row[0])])
+      searchedData.push(data[index])
     }
+    index++;
   }
   return searchedData;
 }

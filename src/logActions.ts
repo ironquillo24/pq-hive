@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import bcrypt from 'bcrypt'
-import { modifyUserData, getSheetsData } from './utils'
+import { getUserByUsername } from './mysqlutils'
 
 
 export const getSession = async() => {
@@ -24,52 +24,28 @@ export const login = async(
 
     const session = await getSession()
 
-    const userDataSheet:any = await getSheetsData('UserData!A1:L',false)
-    const userData: string[][] = userDataSheet[1]
-    
-
-    let username: string = ''
-    let isAdmin: boolean = false
-    let password: string = ''
-    let userID: string = ''
-    let fullName: string =''
-    let nickName: string =''
-    let isSuperAdmin = false
-    
-
     const formUsername = formData.get("username") as string
     const formPassword = formData.get('password') as string
 
-    for (const user of userData){
-      if (formUsername === user[8]){
-        userID = user[1]
-        username = user[8]
-        password = user[9]
-        fullName = user[5]
-        nickName = user[7]
-        isAdmin = user[10] === 'TRUE'
-        isSuperAdmin = user[11] === 'TRUE'
-        { break }
-      }    
-    }
+    const userdb = await getUserByUsername(formUsername)
 
-    if (username === ''){
+    if (!userdb){
       return {error: "Invalid username or password"}
     } 
 
-    const passwordMatches = await bcrypt.compare(formPassword,password)
+    const passwordMatches = await bcrypt.compare(formPassword,userdb.password)
  
     if(!passwordMatches){
       return {error: "Invalid username or password"}
     }
 
-    session.userID = userID
-    session.userName = formUsername
-    session.isAdmin = isAdmin
-    session.fullName = fullName
-    session.nickName = nickName
+    session.userID = userdb.employeeid
+    session.userName = userdb.username
+    session.isAdmin = userdb.isAdmin.toString() === '1'
+    session.fullName = userdb.fullname
+    session.nickName = userdb.nickname
     session.isLoggedIn = true
-    session.isSuperAdmin = isSuperAdmin
+    session.isSuperAdmin = userdb.isSuperAdmin.toString() === '1'
 
     await session.save()
     revalidatePath('/')
@@ -99,7 +75,7 @@ export const register = async(
   const team = formData.get("team") as string
   const nickname = formData.get("nickname") as string
 
-  const userDataSheet:any = await getSheetsData('UserData!A1:K',false)
+ /*  const userDataSheet:any = await getSheetsData('UserData!A1:K',false)
   const userData = userDataSheet[1]
 
   const dataID = String(userData.length)
@@ -115,8 +91,8 @@ export const register = async(
 
   const hashedPassword = await bcrypt.hash(password,10)
 
-  const data= [dataID, employeeNumber,lastName,firstName,email,fullName,team,nickname,username,hashedPassword]
-  await modifyUserData(data,false)
+  const data= [dataID, employeeNumber,lastName,firstName,email,fullName,team,nickname,username,hashedPassword] */
+ // await modifyUserData(data,false)
   revalidatePath('/login')
   redirect('/login')
 

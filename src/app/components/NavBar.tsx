@@ -15,7 +15,7 @@ export default function NavBar( { isLoggedIn, isAdmin, isSuperAdmin } : SessionD
             <div className="flex pb-[10px] ">
             
               <div>
-               {isLoggedIn && <Link href="/" className={`pr-6 ${textcolor} hover:font-bold ` + (isActive('/')? 'font-bold' : '') }>Home</Link> } 
+               {isLoggedIn && <Link href="/" className={`pr-6 ${textcolor} hover:font-bold ` + (isActive('/')? 'font-bold' : '') } prefetch={false}>Home</Link> } 
                { isLoggedIn &&  <Link href='/myhardware' className={`pr-6 ${textcolor} hover:font-bold` + (isActive('myhardware')?'font-bold' : '')}>My Hardware</Link>} 
                { isAdmin && 
                <>

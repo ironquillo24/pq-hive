@@ -2,7 +2,7 @@ import { getSession } from "@/logActions"
 import NavBar from "./NavBar"
 import Image from "next/image"
 import LogoutForm from "./forms/logoutForm"
-import { useGetCurrentUser } from "../data/get-data"
+import Cart from "./buttons/Cart"
 
 const Header = async () =>{
 
@@ -10,7 +10,7 @@ const Header = async () =>{
   const session = await getSession()
 
   
-  return(<div className="flex relative border-b-2 border-zinc-300 ">
+  return(<div className="flex relative border-b-2 border-zinc-300">
     <Image
       src="/assets/logo.png"
       width={200}
@@ -26,6 +26,9 @@ const Header = async () =>{
         {
           session.isLoggedIn && 
           <>
+            <div>
+              <Cart cartItemCount="2"/>
+            </div>
             <div>Hi, {session.nickName}</div> 
             
               <LogoutForm />

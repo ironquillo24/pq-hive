@@ -3,11 +3,11 @@ import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import DbMaintenanceButton from "../components/buttons/DbMaintenanceButton"
 import { dbMaintenance } from "@/superAdminActions"
-import { getSheetsData } from "../../utils"
+import { getMaintenanceData } from "@/mysqlutils"
 import DeleteHardwareButton from "../components/buttons/DeleteHardwareButton"
 import Link from "next/link"
 
-export default async function Admin(){
+export default async function SuperAdmin(){
 
   const session = await getSession()
 
@@ -20,12 +20,12 @@ export default async function Admin(){
     revalidatePath('/')
     redirect('/')
   }
-  const data:any = await getSheetsData('MasterList!A1:A1',false)
-  const isMaintaining = data[1][0][0]=== 'Maintenance'
+  const maintenanceData = await getMaintenanceData();
+  const isMaintaining = maintenanceData[0].flag
 
   return(<>
       <form action={dbMaintenance} className="my-4">
-      <input type='hidden' name="isMaintaining" value={String(isMaintaining)} />
+      <input type='hidden' name="isMaintaining" value={Number(isMaintaining)} />
       < DbMaintenanceButton isMaintaining={isMaintaining}/>
       </form>
      { isMaintaining && <div>

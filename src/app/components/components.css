@@ -1,6 +1,5 @@
 .grid-cell {
-  @apply w-auto flex justify-center text-xs border-solid border-solid border-[1px]
-  border-sky-500 text-wrap items-center 
+  @apply w-auto flex justify-center text-xs text-wrap items-center
 }
 
 .editForm-labels {

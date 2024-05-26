@@ -1,5 +1,6 @@
 "use client"
 import {useSearchParams, usePathname} from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
 
@@ -8,6 +9,11 @@ export default function ModalSuccess() {
     const modalSuccess = searchParams.get("success");
     const successType = searchParams.get('successType') as string
     const pathname = usePathname();
+    const queryClient = useQueryClient()
+
+    const handleOnClick = () =>{
+            queryClient.invalidateQueries({ queryKey: ['ACT10004','borrow'] })
+    }
 
     let message = ''
     switch(successType){
@@ -40,8 +46,8 @@ export default function ModalSuccess() {
                         <div className="flex justify-center">
                           
                             
-                            <Link href={pathname}>
-                                <button type="button" className="bg-green-500 text-white p-2  rounded">Ok</button>
+                            <Link href={pathname} scroll={false}>
+                                <button type="button" className="bg-green-500 text-white p-2  rounded" onClick={handleOnClick}>Ok</button>
                             </Link>
                             
                         </div>

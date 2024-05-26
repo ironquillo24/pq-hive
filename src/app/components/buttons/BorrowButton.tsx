@@ -1,14 +1,12 @@
 "use client"
 import { useRouter } from "next/navigation"
-import Data from "@/dbSchema"
-import { useRef } from 'react';
+import { Data } from "@/dbSchema"
 
 interface BorrowButtonComponents{
   data: Data
-  user: string
 }
 
-export default function BorrowButton({data,user}: BorrowButtonComponents){
+export default function BorrowButton({data}: BorrowButtonComponents){
 
   const router = useRouter();
   const handleClick = () => {

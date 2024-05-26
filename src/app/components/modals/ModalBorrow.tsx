@@ -3,7 +3,7 @@ import {useSearchParams, usePathname, redirect} from "next/navigation";
 import Link from "next/link";
 import {borrowItem} from '../../../actions'
 import SubmitButton from "../buttons/SubmitButton";
-import { useGetHardwareAndUser } from "@/app/data/get-data";
+import { useGetHardwareAndUser } from "@/get-client-data";
 import { useRouter } from "next/navigation";
 
 export default function ModalBorrow() {
@@ -16,15 +16,10 @@ export default function ModalBorrow() {
     
    /*  const {data: hardware , isLoading, isError } = useGetDataById(hardwareID,'borrow'); */
 
-   
-    const data = useGetHardwareAndUser(hardwareID,'borrow', false)
+    const getData = modalBorrow === 'true'
+    const data = useGetHardwareAndUser(hardwareID,'borrow', getData, false)
     const hardware = data[0].data
-    const user = data[1].data
-    const userFullname = user?.fullName
-
-    console.log(hardware)
-
-    console.log('mounting borrow')
+    const userFullname = data[1].data
 
     //no queries yet
     if (hardware === undefined){
@@ -80,7 +75,7 @@ if ((modalBorrow==='true')&&((hardware.hardwareid === '')||(hardware.status!=='I
                         
                         <div className="min-w-[520px] flex justify-items-stretch">
                              <SubmitButton buttonText="Borrow"/> 
-                            <Link href={pathname} className="bg-red-500 text-white p-2 rounded ml-[200px]">
+                            <Link href={pathname} className="bg-red-500 text-white p-2 rounded ml-[200px]" scroll={false}>
                                cancel
                             </Link>
                             

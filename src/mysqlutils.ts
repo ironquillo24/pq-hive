@@ -1,6 +1,6 @@
 'use server'
 import mysql from 'mysql2'
-import Data from "@/dbSchema";
+import {Data, User} from "@/dbSchema";
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
 import {createPool, FieldPacket, Pool} from 'mysql2/promise';
@@ -44,7 +44,6 @@ export async function getByHardwareid(hardwareID: string){
     database: process.env.MYSQL_DATABASE
   }).promise()
   
-    console.log('getting ', hardwareID)
   try{
     const result = await pool.query(`SELECT *,DATEDIFF(NOW(),datemodified) as inUseDuration from masterlist WHERE hardwareid = ?`, hardwareID)
     pool.end()
@@ -89,6 +88,27 @@ export async function getMaintenanceData(){
   
   } catch (err) {
     console.error("Error fetching data from db")
+    throw err;
+  }
+}
+
+export async function updateMaintenanceData(status: boolean){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+  
+  try{
+    const result = await pool.query("Update maintenance_table SET flag=? where id=1;", status)
+    pool.end()
+    
+    return result[0] as ResultSetHeader
+  
+  } catch (err) {
+    console.error("Error updating maintenance in db")
     throw err;
   }
 }
@@ -142,7 +162,7 @@ export async function updateLogs(logid: string, previousOwner: string, previousS
 export interface usersFullname{
   fullname: string
 }
-export async function getAllUsers(){
+export async function getAllFullNames(){
 
   const pool= mysql.createPool({
     host: process.env.MYSQL_HOST,
@@ -163,5 +183,27 @@ export async function getAllUsers(){
     console.error("Error posting data to db")
     throw err;
   }
+}
 
+export async function getUserByUsername(username: string){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  try{
+    const result = await pool.query(`SELECT *,CONCAT(givenname,' ',lastname) AS fullname FROM user_schema where username = ?;`, username)
+    pool.end()
+    
+    const data = result[0] as User[]
+    
+    return data[0]
+  
+  } catch (err) {
+    console.error("Error posting data to db")
+    throw err;
+  }
 }

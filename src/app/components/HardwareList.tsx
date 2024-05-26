@@ -1,6 +1,6 @@
 import './components.css'
 import ButtonSelector from './ButtonSelector'
-import Data from '@/dbSchema'
+import {Data} from '@/dbSchema'
 
 interface HardwareListProps{
   data: Data,
@@ -11,9 +11,9 @@ interface HardwareListProps{
 
 export default function HardwareList({ data, isButton, user, isAdminActivated }: HardwareListProps){
      
-  const bgColor = isButton? "bg-slate-200 h-14 hover:bg-slate-200" : "bg-slate-800 text-white h-10"
+  const bgColor = isButton? "h-14" : "bg-slate-800 text-white h-10"
   const statusColorCondition = (data.status.includes("IN STORAGE"))? "bg-green-300" : "bg-purple-300 text-red-700"
-  const statusColor = isButton? statusColorCondition: "bg-slate-800 text-white"
+  const statusColor = isButton? statusColorCondition : "bg-slate-800 text-white"
   const textSizeDesc = (data.description.includes("Description"))? "" : "text-xs"
 
   const dateModified = String(data.dateModified)
@@ -26,7 +26,7 @@ export default function HardwareList({ data, isButton, user, isAdminActivated }:
             <ButtonSelector data={data} user={user} isAdminActivated={isAdminActivated}/>
           </div>
         ):
-        <div className={`grid-cell ml-4 ${bgColor}`}>Action</div>
+        <div className={`grid-cell ${bgColor}`}>Action</div>
       }
       <div className={`grid-cell ${statusColor}`}>{data.status}</div>
       <div className={`grid-cell ${bgColor}`} >{data.hardwareid}</div>
@@ -36,7 +36,7 @@ export default function HardwareList({ data, isButton, user, isAdminActivated }:
       <div className={`grid-cell ${bgColor}  ${textSizeDesc}`}>{data.comments}</div>
       <div className={`grid-cell ${bgColor}`}>{data.owner}</div>
       <div className={`grid-cell ${bgColor}`}>{dateModified}</div>
-      <div className={`grid-cell ${bgColor} mr-4`}>{data.inUseDuration}</div>
+      <div className={`grid-cell ${bgColor}`}>{data.inUseDuration}</div>
     </>
   )
 

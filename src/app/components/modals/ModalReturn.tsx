@@ -4,9 +4,7 @@ import Link from "next/link";
 import { returnItem } from '../../../actions'
 import SubmitButton from "../buttons/SubmitButton";
 import { useRouter } from "next/navigation";
-import { useGetHardwareAndUser } from "@/app/data/get-data";
-import Data from "@/dbSchema";
-import { SessionData } from "@/lib";
+import { useGetHardwareAndUser } from "@/get-client-data";
 
 export default function ModalReturn() {
     const router = useRouter();
@@ -16,10 +14,10 @@ export default function ModalReturn() {
     const modalReturn= searchParams.get("returnItem");
     const hardwareID = searchParams.get('hardwareID') || '' as string
 
-    const data = useGetHardwareAndUser(hardwareID,'borrow', false)
-    const hardware = data[0].data as Data
-    const user = data[1].data as SessionData
-    const userFullname = user?.fullName
+    const getData = modalReturn === 'true'
+    const data = useGetHardwareAndUser(hardwareID,'return', getData, false)
+    const hardware = data[0].data!
+    const userFullname = data[1].data
 
     //no queries yet
     if (hardware === undefined){
@@ -66,7 +64,7 @@ if ((modalReturn==='true')&&((hardware.hardwareid === '')||(hardware.status!=='I
                             <div className='flex items-center font-bold'>Owner:</div>
                             <div className="flex items-center justify-items-stretch">
                                 <div><span><s>{hardware.owner}</s> ➠   </span></div>
-                                <div><input type='text' name="owner" id="owner" value={userFullname} readOnly
+                                <div><input type='text' name="newOwner" id="newOwner" value={userFullname} readOnly
                                 className="border-solid border-2 border-gray-300 p-2 ml-2"/></div>
                                 
                             </div>
@@ -76,8 +74,8 @@ if ((modalReturn==='true')&&((hardware.hardwareid === '')||(hardware.status!=='I
                         
                         <div className="flex flex-row justify-items-stretch ">
                              <SubmitButton buttonText="Return" /> 
-                            <Link href={pathname}>
-                                <button type="button" className="bg-red-500 text-white p-2 ml-[100px] rounded">Cancel</button>
+                            <Link href={pathname} className="bg-red-500 text-white p-2 rounded ml-[200px]" scroll={false}>
+                                Cancel
                             </Link>
                             
                         </div>

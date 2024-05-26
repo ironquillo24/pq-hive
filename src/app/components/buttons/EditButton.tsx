@@ -1,14 +1,13 @@
 "use client"
 import { useRouter } from "next/navigation"
-import Data from "@/dbSchema"
+import { Data } from "@/dbSchema"
 
 interface EditButtonComponents{
   data: Data
-  user: string
 }
 
 
-export default function EditButton({data, user}: EditButtonComponents){
+export default function EditButton({data}: EditButtonComponents){
 
 
   const router = useRouter();
