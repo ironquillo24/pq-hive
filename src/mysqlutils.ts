@@ -297,8 +297,6 @@ export async function updateMultipleHardware(userInput: string[/*comments,owner,
 
   const dataToUpdate = userInput.concat(hardwareIdArray)
 
-  console.log(dataToUpdate)
-  console.log(idQueryConstruct)
   try{
     const result = await pool.query(
       `UPDATE masterlist SET comments = ?, owner = ?, status = ? WHERE ${idQueryConstruct};`, dataToUpdate  )

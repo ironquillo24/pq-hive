@@ -45,7 +45,7 @@ export function useGetCartData(){
   
   return useQuery({
     queryKey: ['cart',userid],
-    queryFn: async () => getCartDataByUserid(userid),
+    queryFn: async () => getCartDataByUserid(userid!),
     enabled: getData
   })
 }

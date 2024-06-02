@@ -38,7 +38,7 @@ export default async function Home()
   }       
 
   //get cartData
-  const cartData = await getCartDataByUserid(session.userID)
+  const cartData = await getCartDataByUserid(session.userID!)
   
   //get user and admin info from session
   const user: string = session.fullName!
