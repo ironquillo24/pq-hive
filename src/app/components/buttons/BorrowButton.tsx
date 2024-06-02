@@ -2,11 +2,11 @@
 import { useRouter } from "next/navigation"
 import { Data } from "@/dbSchema"
 
-interface BorrowButtonComponents{
+interface BorrowButtonProps{
   data: Data
 }
 
-export default function BorrowButton({data}: BorrowButtonComponents){
+export default function BorrowButton({data}: BorrowButtonProps){
 
   const router = useRouter();
   const handleClick = () => {

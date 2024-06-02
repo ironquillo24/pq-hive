@@ -6,10 +6,11 @@ interface HardwareListProps{
   data: Data,
   isButton: boolean,
   user: string,
+  userID: number,
   isAdminActivated: boolean
 }
 
-export default function HardwareList({ data, isButton, user, isAdminActivated }: HardwareListProps){
+export default function HardwareList({ data, isButton, user, userID, isAdminActivated }: HardwareListProps){
      
   const bgColor = isButton? "h-14" : "bg-slate-800 text-white h-10"
   const statusColorCondition = (data.status.includes("IN STORAGE"))? "bg-green-300" : "bg-purple-300 text-red-700"
@@ -23,7 +24,7 @@ export default function HardwareList({ data, isButton, user, isAdminActivated }:
       {
         isButton? (
           <div className={`grid-cell ${bgColor} ml-4 gap-px`}>
-            <ButtonSelector data={data} user={user} isAdminActivated={isAdminActivated}/>
+            <ButtonSelector data={data} user={user} userID={userID} isAdminActivated={isAdminActivated} />
           </div>
         ):
         <div className={`grid-cell ${bgColor}`}>Action</div>

@@ -2,18 +2,16 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useGetCartData } from "@/get-client-data"
 
-
-interface CartProps{
-  cartItemCount: string
-}
-
-export default function Cart({ cartItemCount }: CartProps){
+export default function Cartbutton(){
 
   const path = usePathname()
   const pathName = `${path}?cart=true`
 
+  const {data: cartdata} = useGetCartData()
 
+  const cartItemCount = cartdata?.length
   return(
     <Link href={pathName}>
       <div className="flex relative">
@@ -23,9 +21,12 @@ export default function Cart({ cartItemCount }: CartProps){
               height={40}
               alt="PQ Hive"
             />
+       {cartItemCount ?
         <div className="absolute -top-2 -right-3 bg-red-800 text-white rounded-full text-xs py-1 px-2" >
           {cartItemCount}
-        </div>
+        </div> :
+        null
+       } 
       </div>
   </Link>
   )

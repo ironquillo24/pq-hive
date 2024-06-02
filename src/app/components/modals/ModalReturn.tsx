@@ -72,7 +72,7 @@ if ((modalReturn==='true')&&((hardware.hardwareid === '')||(hardware.status!=='I
                             <div className="flex items-center">{hardware.inUseDuration} days</div>
                         </div>
                         
-                        <div className="flex flex-row justify-items-stretch ">
+                        <div className="flex flex-row justify-center  ">
                              <SubmitButton buttonText="Return" /> 
                             <Link href={pathname} className="bg-red-500 text-white p-2 rounded ml-[200px]" scroll={false}>
                                 Cancel

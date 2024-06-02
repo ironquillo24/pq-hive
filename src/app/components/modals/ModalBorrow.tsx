@@ -16,7 +16,8 @@ export default function ModalBorrow() {
     
    /*  const {data: hardware , isLoading, isError } = useGetDataById(hardwareID,'borrow'); */
 
-    const getData = modalBorrow === 'true'
+   const getData = modalBorrow === 'true'
+
     const data = useGetHardwareAndUser(hardwareID,'borrow', getData, false)
     const hardware = data[0].data
     const userFullname = data[1].data
@@ -36,7 +37,7 @@ if ((modalBorrow==='true')&&((hardware.hardwareid === '')||(hardware.status!=='I
                 (
                 
                 <form action={borrowItem} //borrowItem 
-                    className="fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center drop-shadow-md"
+                    className="fixed rounded border-solid left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center drop-shadow-md"
                     >
                     <input type='hidden' id="dataID" name="dataID" value={hardware.hardwareid} />
                     <input type='hidden' id="previousOwner" name="previousOwner" value={hardware?.owner} />
@@ -73,7 +74,7 @@ if ((modalBorrow==='true')&&((hardware.hardwareid === '')||(hardware.status!=='I
                             <div className="flex items-center">{hardware?.inUseDuration}</div>
                         </div>
                         
-                        <div className="min-w-[520px] flex justify-items-stretch">
+                        <div className="min-w-[520px] flex justify-center">
                              <SubmitButton buttonText="Borrow"/> 
                             <Link href={pathname} className="bg-red-500 text-white p-2 rounded ml-[200px]" scroll={false}>
                                cancel

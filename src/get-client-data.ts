@@ -1,5 +1,5 @@
 'use client'
-import { getByHardwareid, getAllFullNames } from "@/mysqlutils";
+import { getByHardwareid, getAllFullNames, getCartDataByUserid } from "@/mysqlutils";
 import { useQuery, useQueries } from "@tanstack/react-query";
 import { getSession } from "@/logActions";
 
@@ -37,3 +37,15 @@ export function useGetHardwareAndUser(hardwareID: string, pathType: string, enab
   })
 }
 
+export function useGetCartData(){
+
+  const {data: user} = useGetCurrentUser()
+  const userid = user?.userID
+  const getData = userid? true : false
+  
+  return useQuery({
+    queryKey: ['cart',userid],
+    queryFn: async () => getCartDataByUserid(userid),
+    enabled: getData
+  })
+}

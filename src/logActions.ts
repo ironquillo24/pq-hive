@@ -39,7 +39,7 @@ export const login = async(
       return {error: "Invalid username or password"}
     }
 
-    session.userID = userdb.employeeid
+    session.userID = userdb.id
     session.userName = userdb.username
     session.isAdmin = userdb.isAdmin.toString() === '1'
     session.fullName = userdb.fullname

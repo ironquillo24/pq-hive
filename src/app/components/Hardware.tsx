@@ -3,15 +3,17 @@ import { useState, useMemo } from 'react'
 import HardwareList from './HardwareList'
 import AdminControls from './buttons/AdminControls'
 import {Data} from '@/dbSchema'
-
+import { CartData } from '@/mysqlutils'
 
 interface HardwareProps {
   hardwareData: Data[]
   user: string
+  userID: number
   isAdmin: boolean
+  cartData: CartData[]
 }
 
-export default function Hardware({hardwareData, user, isAdmin}: HardwareProps){
+export default function Hardware({hardwareData, user, userID, isAdmin, cartData}: HardwareProps){
 
   const [inputValue, setInputValue] = useState('');
   const [showAdminControls, setShowAdminControls] = useState(false)
@@ -32,12 +34,6 @@ export default function Hardware({hardwareData, user, isAdmin}: HardwareProps){
     return data;
   },[inputValue,hardwareData])  
 
-/*   if (inputValue.toLowerCase()==='all'){
-    searchedData = filterData(hardwareData, '')
-  } else{
-    searchedData = filterData(hardwareData, inputValue)
-  }
-   */
   let isDataAvailable: boolean;
   
   //don't show data if searchbox is empty. Show all data if showAdminControl button is press or 'all' is typed in search box
@@ -102,7 +98,7 @@ export default function Hardware({hardwareData, user, isAdmin}: HardwareProps){
       <div className='pt-[60px]'>
         {isDataAvailable? (
           <div className="grid grid-cols-10 font-bold min-w-[1500px] pl-2">
-            <HardwareList data={tableHeader} isButton={false} user={user} isAdminActivated={showAdminControls}/> 
+            <HardwareList data={tableHeader} isButton={false} user={user} userID={userID} isAdminActivated={showAdminControls}/> 
           </div>
         ) :  
         <p></p>}
@@ -115,7 +111,7 @@ export default function Hardware({hardwareData, user, isAdmin}: HardwareProps){
               //console.log(hardwareInfo) 
               return (
                 <li key={hardwareInfo.id} className={"grid grid-cols-10 gap-0 min-w-[1500px] bg-white hover:bg-slate-200 my-[3px] rounded border-solid border-2"}>
-                  <HardwareList data={hardwareInfo} isButton={true} user={user} isAdminActivated={showAdminControls}/>
+                  <HardwareList data={hardwareInfo} isButton={true} user={user} userID={userID} isAdminActivated={showAdminControls}/>
               </li>
             )})
             

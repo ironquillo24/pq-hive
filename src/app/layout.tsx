@@ -1,5 +1,4 @@
 import "./globals.css";
-import NavBar from "./components/NavBar"
 import Header from "./components/Header";
 import ModalReturn from "./components/modals/ModalReturn";
 import ModalSuccess from "./components/modals/ModalSuccess";
@@ -7,6 +6,7 @@ import ModalNotAvailable from "./components/modals/ModalNotAvailable";
 import ModalBorrow from "./components/modals/ModalBorrow"
 import { ReactQueryProvider } from "./components/ReactQueryProvider";
 import ModalChangeOwner from "./components/modals/ModalChangeOwner";
+import ModalCart from "./components/modals/ModalCart";
 
 export const metadata = {
   title: 'My App',
@@ -36,6 +36,7 @@ export default function RootLayout(
           <ModalReturn />
           <ModalSuccess />
           <ModalChangeOwner />
+          <ModalCart />
       </ReactQueryProvider>
       </body>
     </html>

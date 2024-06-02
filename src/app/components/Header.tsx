@@ -2,7 +2,7 @@ import { getSession } from "@/logActions"
 import NavBar from "./NavBar"
 import Image from "next/image"
 import LogoutForm from "./forms/logoutForm"
-import Cart from "./buttons/Cart"
+import Cart from "./buttons/Cartbutton"
 
 const Header = async () =>{
 

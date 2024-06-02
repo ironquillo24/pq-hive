@@ -8,11 +8,12 @@ import { Data } from "@/dbSchema"
 
 interface ButtonSelectorComponents{
   data: Data,
-  user: string
+  user: string,
+  userID?: number,
   isAdminActivated: boolean
 }
 
-export default function ButtonSelector({data, user, isAdminActivated}: ButtonSelectorComponents){
+export default function ButtonSelector({data, user, userID, isAdminActivated}: ButtonSelectorComponents){
 
   const status = data.status.toLowerCase()
   const owner = data.owner.toLowerCase()
@@ -23,7 +24,7 @@ export default function ButtonSelector({data, user, isAdminActivated}: ButtonSel
     if (status.includes("storage")){
       return <>
         <BorrowButton data={data} />
-        <AddtoCartButton />
+        <AddtoCartButton data={data} userID={userID!}/>
       </>
     } else if (status.includes("in use")) {
         if (owner === user.toLowerCase()) {

@@ -3,7 +3,7 @@ import { getData, getMaintenanceData } from '@/mysqlutils'
 import {getSession} from '@/logActions'
 import DbMaintenance from "./components/DbMaintenance"
 import { redirect } from "next/navigation"
-import Cart from "./components/buttons/Cart"
+import { getCartDataByUserid } from "@/mysqlutils"
 
 export const dynamic = 'force-dynamic'
 
@@ -36,15 +36,19 @@ export default async function Home()
       </>
     )
   }       
+
+  //get cartData
+  const cartData = await getCartDataByUserid(session.userID)
   
   //get user and admin info from session
   const user: string = session.fullName!
+  const userID = session.userID!
   const isAdmin: boolean = session.isAdmin!
 
   return (
     <>
       <div className="flex relative">
-        { data? <Hardware hardwareData={data} user={user} isAdmin={isAdmin} /> : <p>no data</p> }
+        { data? <Hardware hardwareData={data} user={user} userID={userID} isAdmin={isAdmin} cartData={cartData} /> : <p>no data</p> }
         
 {/*         <ModalEditHardware data={data} user={user}/>
         <ModalAddHardware user={user}/> */}

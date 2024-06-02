@@ -3,7 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-import { getByHardwareid, updateSingleData, updateLogs } from './mysqlutils'
+import { getByHardwareid, updateSingleData, updateLogs, getCartDataByUserid, updateMultipleHardware, deleteMultipleCartData, updateCartLogs } from './mysqlutils'
+import { error } from 'console'
 
 export async function borrowItem(formData: FormData){
   
@@ -112,6 +113,62 @@ export async function changeOwner(formData: FormData){
   }
 }
 
+
+export async function borrowCart(formData: FormData){
+  
+  const comments = formData.get('comments') as string
+  const newOwner= formData.get('userFullname') as string
+  const currentPath = formData.get('pathname') as string
+  const userID = Number(formData.get('userID'))
+
+  const redirectPathname = `${currentPath}?success=true&successType=borrow`
+
+  const uid = (()=> Date.now().toString(36) + Math.random().toString(36))()
+
+  const data = await getCartDataByUserid(userID);
+
+  const availData = data.filter((harware) => harware.status === 'IN STORAGE')
+
+  const userInput = [comments,newOwner,'IN USE']
+
+  let hardwareIdArray = []
+  let cartItemforDelete = []
+
+  for (let item of availData){
+    hardwareIdArray.push(item.hardwareid)
+    cartItemforDelete.push(item.cartid)
+  }
+  
+  if (!availData.length){
+    revalidatePath('/')
+    redirect('/?notAvailable=true+hardwareID=1')
+  }
+
+  try{
+    const resultUpdate = await updateMultipleHardware(userInput,hardwareIdArray)
+  } catch (err) {
+    console.error("error updating multple hardware data in db")
+    throw error
+  }
+
+  try{
+    const resultDelete = await deleteMultipleCartData(cartItemforDelete)
+  }catch(err){
+    console.error("error deleting multplie cart data in db")
+    throw error;
+  }
+      
+     // const log = await updateLogs(uid,previousOwner,previousStatus, 'IN USE',newOwner, comments)
+     revalidatePath('/','layout')
+     redirect(redirectPathname)
+/*     } else{
+      revalidatePath('/')
+      redirect('/?notAvailable=true+hardwareID=1')
+    }  */
+
+}
+
+
 export async function editItem(formData: FormData){
 
     const dataID: number = Number(formData.get('dataID'))
@@ -201,6 +258,6 @@ export async function addItem(formData: FormData){
 
 export async function notAvail(formData: FormData){
 
-  revalidatePath('/')
+  revalidatePath('/', 'layout')
   redirect('/')
 }
