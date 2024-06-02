@@ -73,7 +73,7 @@ export default async function MyHardware(){
 
                   return(
                     <li key={hardware.id}>
-                      <div className={`grid grid-cols-[130px_100px_150px_100px_250px_170px_150px_200px] border-2 border-gray-200 max-w-[1500px] py-[5px] hover:bg-slate-200`}>
+                      <div className={`grid grid-cols-[130px_100px_150px_100px_250px_170px_150px_200px] border-2 border-gray-200 max-w-[1500px] py-[5px] hover:bg-slate-200 min-w-[1250px]`}>
                         <div className='flex justify-center items-center min-h-[35px]'><ButtonSelector data={hardware} user={session.fullName!} isAdminActivated={false} /></div>
                         <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.status}</div>
                         <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.hardwareid}</div>
