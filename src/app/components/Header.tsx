@@ -27,7 +27,7 @@ const Header = async () =>{
           session.isLoggedIn && 
           <>
             <div>
-              <Cart cartItemCount="2"/>
+              <Cart />
             </div>
             <div>Hi, {session.nickName}</div> 
             

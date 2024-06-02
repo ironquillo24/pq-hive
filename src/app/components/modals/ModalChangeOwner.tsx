@@ -80,7 +80,7 @@ export default function ModalChangeOwner() {
                             <div className="flex items-center">{" "}{hardware?.inUseDuration}</div>
                         </div>
                         
-                        <div className="flex flex-row justify-items-stretch ">
+                        <div className="flex flex-row justify-center ">
                              <SubmitButton buttonText="Transfer"/> 
                             <Link href={pathname} className="bg-red-500 text-white p-2 rounded ml-[200px]" scroll={false}>
                                 Cancel

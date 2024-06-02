@@ -5,7 +5,7 @@ import SubmitButton from "../buttons/SubmitButton";
 import { borrowCart } from "../../../actions"
 import { useGetCartData, useGetCurrentUser } from "@/get-client-data";
 import { useRemoveFromCart } from "@/post-client-data"
-import RemoveFromCartButton from "../buttons/RemovefromCartButton";
+import RemoveFromCartButton from "../buttons/RemoveFromCartButton";
 
 export default function ModalCart() {
 
@@ -83,7 +83,7 @@ export default function ModalCart() {
                         <div className="my-2 text-xs italic">Note: Items not in storage will not be available for borrowing.</div>
                         <div className="flex m-2">
                             <div className="font-bold">Comments on loc/activity:</div>
-                            <textarea name="comments" className="w-[700px] ml-2 border-solid border-2 border-slate-200" required maxLength={60}></textarea>
+                            <input name="comments" className="w-[700px] ml-2 border-solid border-2 border-slate-500 rounded" required maxLength={60}/>
                         </div>
                         <div className="ml-[210px] text-xs italic">*Will apply to all hardware borrowed*</div>
 

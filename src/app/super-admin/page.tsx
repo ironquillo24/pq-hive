@@ -28,9 +28,9 @@ export default async function SuperAdmin(){
       <input type='hidden' name="isMaintaining" value={Number(isMaintaining)} />
       < DbMaintenanceButton isMaintaining={isMaintaining}/>
       </form>
-     { isMaintaining && <div>
+     { isMaintaining ? <div>
         <DeleteHardwareButton />
-      </div>}
+      </div> : null }
      <Link href="/register" className='pr-6 text-slate-700 hover:font-bold border-solid border-2 border-black rounded'>Create New User</Link>
   </>
 

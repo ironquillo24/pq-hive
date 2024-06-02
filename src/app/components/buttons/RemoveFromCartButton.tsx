@@ -9,7 +9,7 @@ const RemoveFromCartButton = ({cartid}: ButtonProps) => {
   const removeItem = useRemoveFromCart()
 
   const onRemove = () => {
-   // e.preventDefault()
+    //e.preventDefault()
     removeItem.mutate(cartid)
   }
 

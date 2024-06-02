@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-import { getByHardwareid, updateSingleData, updateLogs, getCartDataByUserid, updateMultipleHardware, deleteMultipleCartData, updateCartLogs } from './mysqlutils'
+import { getByHardwareid, updateSingleData, updateLogs, getCartDataByUserid, updateMultipleHardware, deleteMultipleCartData, getHardwareByOwner } from './mysqlutils'
 import { error } from 'console'
 
 export async function borrowItem(formData: FormData){
@@ -25,7 +25,8 @@ export async function borrowItem(formData: FormData){
       const result = await updateSingleData(comments, newOwner, 'IN USE', data.id)
       const log = await updateLogs(uid,previousOwner,previousStatus, 'IN USE',newOwner, comments)
       
-      revalidatePath('/')
+      revalidatePath('/','layout')
+      revalidatePath('/myhardware','layout')
       redirect(redirectPathname)
     } else{
       revalidatePath('/')
@@ -260,4 +261,29 @@ export async function notAvail(formData: FormData){
 
   revalidatePath('/', 'layout')
   redirect('/')
+}
+
+export async function returnAllItems(formData: FormData){
+  
+  const userFullname = formData.get("user") as string
+  const comments = String(formData.get('comments')).replace(/[\r\n]+/gm, " ");
+
+  const data = await getHardwareByOwner(userFullname)
+
+  const filteredData = data.filter((item) => item.status ==="IN USE")
+  
+  if (filteredData.length === 0){
+    return
+  }
+
+  const info = [comments,userFullname,'RETURNED']
+  let hardwareIdArray = []
+  for (let item of filteredData){
+    hardwareIdArray.push(item.hardwareid)
+  }
+  
+  const result = await updateMultipleHardware(info,hardwareIdArray)
+
+  revalidatePath('/')
+  revalidatePath('/myhardware')
 }

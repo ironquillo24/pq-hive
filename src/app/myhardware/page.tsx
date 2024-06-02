@@ -5,6 +5,8 @@ import DbMaintenance from "../components/DbMaintenance"
 import ButtonSelector from "../components/ButtonSelector"
 import { redirect } from 'next/navigation'
 import { Data } from "@/dbSchema"
+import ReturnAllButton from "../components/buttons/ReturnAllButton"
+import { returnAllItems } from "@/actions"
 
 export default async function MyHardware(){
 
@@ -35,43 +37,57 @@ export default async function MyHardware(){
   if (myData.length === 0){
     isDataAvail = false
   }
+  const myLayout = isDataAvail? 'grid grid-cols-[minmax(150px,10%)_90%]' : 'flex justify-center inline-block resize'
+  const str = 'flex justify-center inline-block resize'
+  return (<div className={`${myLayout}`}>
 
-  const cartdata = new Set('')
-  
-  return (<div className='flex justify-center inline-block resize pl-2  border-gray-200 rounded-lg'>
+  {isDataAvail?
+    <div className="flex justify-center">
+      <form action={returnAllItems} className=" border-solid border-[1px] border-slate-200 p-2 h-[200px] mt-4">
+        <input type="hidden" name="user" value={session.fullName!} readOnly/>
+        <div className="max-w-[100px] text-xs mb-2 font-medium">Comment on location for returning all items at once:</div>
+        <textarea name='comments' maxLength={60} className="w-[100px] mb-2 border-2 border-solid border-slate-300 text-sm resize-none" required/>
+        <button type="submit" className="flex items-center justify-center bg-slate-200 text-black hover:bg-slate-700 hover:text-white font-medium px-4 py-2 rounded text-sm border-solid border-2 border-slate-400">
+            Return all
+        </button>
+      </form> 
+    </div>:
+    <div></div>
+    }
+
     { isDataAvail? 
       <div className='pt-4 min-w-auto'>
-      <div className={`grid grid-cols-[130px_100px_150px_100px_250px_170px_150px_200px] border-2 border-gray-200 max-w-[1500px] min-w-[1250px]`}>
-        <div className='flex justify-center items-center font-bold min-h-[35px]'>Action</div>
-        <div className='flex justify-center items-center font-bold min-h-[35px]'>Status</div>
-        <div className='flex justify-center items-center font-bold min-h-[35px]'>HardwareID</div>
-        <div className='flex justify-center items-center font-bold min-h-[35px]'>Pspecs</div>
-        <div className='flex justify-center items-center font-bold min-h-[35px]'>Description</div>
-        <div className='flex justify-center items-center font-bold min-h-[35px]'>Owner</div>
-        <div className='flex justify-center items-center font-bold min-h-[35px]'>Comments</div>
-        <div className='flex justify-center items-center font-bold min-h-[35px]'>Date Borrowed</div>
-      </div>
-      <ul>
-            {
-              myData.map((hardware)=>{
+        <div className={`grid grid-cols-[130px_100px_150px_100px_250px_170px_150px_200px] border-2 border-gray-200 max-w-[1500px] min-w-[1250px]`}>
+          <div className='flex justify-center items-center font-bold min-h-[35px]'>Action</div>
+          <div className='flex justify-center items-center font-bold min-h-[35px]'>Status</div>
+          <div className='flex justify-center items-center font-bold min-h-[35px]'>HardwareID</div>
+          <div className='flex justify-center items-center font-bold min-h-[35px]'>Pspecs</div>
+          <div className='flex justify-center items-center font-bold min-h-[35px]'>Description</div>
+          <div className='flex justify-center items-center font-bold min-h-[35px]'>Owner</div>
+          <div className='flex justify-center items-center font-bold min-h-[35px]'>Comments</div>
+          <div className='flex justify-center items-center font-bold min-h-[35px]'>Date Borrowed</div>
+        </div>
+        <ul>
+              {
+                myData.map((hardware)=>{
 
-                return(
-                  <li key={hardware.id}>
-                    <div className={`grid grid-cols-[130px_100px_150px_100px_250px_170px_150px_200px] border-2 border-gray-200 max-w-[1500px] py-[5px] hover:bg-slate-200`}>
-                      <div className='flex justify-center items-center min-h-[35px]'><ButtonSelector data={hardware} user={session.fullName!} isAdminActivated={false} /></div>
-                      <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.status}</div>
-                      <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.hardwareid}</div>
-                      <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.pspec}</div>
-                      <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.description.slice(0,50)}</div>
-                      <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.owner}</div>
-                      <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.comments.slice(0,50)}</div>
-                      <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{String(hardware.dateModified)}</div>
-                    </div>
-                  </li>
-                )
-              })
-            }
-      </ul>
+                  return(
+                    <li key={hardware.id}>
+                      <div className={`grid grid-cols-[130px_100px_150px_100px_250px_170px_150px_200px] border-2 border-gray-200 max-w-[1500px] py-[5px] hover:bg-slate-200`}>
+                        <div className='flex justify-center items-center min-h-[35px]'><ButtonSelector data={hardware} user={session.fullName!} isAdminActivated={false} /></div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.status}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.hardwareid}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.pspec}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.description.slice(0,50)}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.owner}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.comments.slice(0,50)}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{String(hardware.dateModified)}</div>
+                      </div>
+                    </li>
+                  )
+                })
+              }
+        </ul>
 
     </div>
     

@@ -32,6 +32,8 @@ export default async function ReturnedHardware(){
   const user = session.fullName!
 
   const filteredData = filterData(data,'RETURNED')
+
+  
   
   let isDataAvail = true
   if (filteredData.length === 0){
@@ -39,6 +41,8 @@ export default async function ReturnedHardware(){
   }
 
   return (<div className='flex justify-center inline-block resize pl-2 border border border-gray-200 rounded-lg'>
+
+    
 
     {isDataAvail?
 

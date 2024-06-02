@@ -64,6 +64,29 @@ export async function getByHardwareid(hardwareID: string){
 
 }
 
+export async function getHardwareByOwner(owner: string){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+  
+  try{
+    const result = await pool.query(`SELECT hardwareid, status from masterlist WHERE owner = ?`, owner)
+    pool.end()
+    const data = result[0] as Data[]
+
+    return data
+  
+  } catch (err) {
+    console.error("Error fetching data from db")
+    throw err;
+  }
+
+}
+
 interface MaintanaceData {
   id: number,
   maintenanceType: string,

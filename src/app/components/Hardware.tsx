@@ -81,7 +81,7 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
   }
 
   return (
-    <div className='inline-block resize border-gray-200 max-w-[1500px] bg-slate-200' > 
+    <div className='inline-block resize border-gray-200 max-w-[1500px] bg-slate-200 min-w-[1500px]' > 
       <div className="fixed w-full bg-white pt-2 pl-2">
         <div className="flex relative mt-2">
           <div className={`font-bold pr-2 ${textColor}`}>Search: </div>
@@ -103,28 +103,25 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
         ) :  
         <p></p>}
 
-      { isDataAvailable? (
+        { isDataAvailable? (
         
-        <div className='bg-slate-100 pl-2'>
-          <ul> 
-            {searchedData.map((hardwareInfo) => {
-              //console.log(hardwareInfo) 
-              return (
-                <li key={hardwareInfo.id} className={"grid grid-cols-10 gap-0 min-w-[1500px] bg-white hover:bg-slate-200 my-[3px] rounded border-solid border-2"}>
-                  <HardwareList data={hardwareInfo} isButton={true} user={user} userID={userID} isAdminActivated={showAdminControls}/>
-              </li>
-            )})
-            
-            
-            }
-    
-          </ul>
-        </div>)
+          <div className='bg-slate-100 pl-2'>
+            <ul> 
+              {searchedData.map((hardwareInfo) => {
+                //console.log(hardwareInfo) 
+                return (
+                  <li key={hardwareInfo.id} className={"grid grid-cols-10 gap-0 min-w-[1500px] bg-white hover:bg-slate-200 my-[3px] rounded border-solid border-2"}>
+                    <HardwareList data={hardwareInfo} isButton={true} user={user} userID={userID} isAdminActivated={showAdminControls}/>
+                </li>
+              )})
+              }
       
-      : <div className='bg-white'>
-        Please enter a valid search word (i.e. HardwareID, P-specs, or keywords such as generic, package, etc.) Type &ldquo;all&rdquo; to display all hardware
-        </div>} 
-        
+            </ul>
+          </div>)
+          :      
+          <div className='bg-white pl-2'>
+            Please enter a valid search word (i.e. HardwareID, P-specs, or keywords such as generic, package, etc.) Type &ldquo;all&rdquo; to display all hardware
+          </div>}    
       </div>
  
     </div>

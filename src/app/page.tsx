@@ -47,7 +47,7 @@ export default async function Home()
 
   return (
     <>
-      <div className="flex relative">
+      <div className="flex relative justify-center">
         { data? <Hardware hardwareData={data} user={user} userID={userID} isAdmin={isAdmin} cartData={cartData} /> : <p>no data</p> }
         
 {/*         <ModalEditHardware data={data} user={user}/>
