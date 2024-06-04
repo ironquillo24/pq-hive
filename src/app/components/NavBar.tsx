@@ -27,7 +27,7 @@ export default function NavBar( { isLoggedIn, isAdmin, isSuperAdmin } : SessionD
                     <Link href="/super-admin" className={`pr-6 ${textcolor} hover:font-bold`}>Super Admin</Link>
                   </>
                 }
-                <Link href="/profile" className={`pr-6 ${textcolor} hover:font-bold`}>Profile</Link>
+                 { isLoggedIn && <Link href="/profile" className={`pr-6 ${textcolor} hover:font-bold`}>Profile</Link> }
                 
               </div>
               
