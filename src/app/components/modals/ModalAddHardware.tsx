@@ -4,6 +4,7 @@ import Link from "next/link";
 import {addItem} from '../../../actions'
 import SubmitButton from "../buttons/SubmitButton";
 import '../components.css'
+import { useGetAllUserFullnames } from "@/get-client-data";
 
 interface ModalAddHardwareComponents{
   user: string
@@ -11,14 +12,19 @@ interface ModalAddHardwareComponents{
 export default function ModalAddHardware({user}:ModalAddHardwareComponents) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const modalAddHardware = searchParams.get("addHardware");
+    const modalAddHardware = searchParams.get("addHardware") === 'true'
+
+    const {data: allUsers} = useGetAllUserFullnames(modalAddHardware)
   
+    let fullNameArr: string[] =[]
+    allUsers?.map((user) => fullNameArr.push(user.fullname))
+
     return (
         <>
             {modalAddHardware &&
                 (
                 
-                <form action={addItem} //borrowItem 
+                <form action={addItem} 
                     className="fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center drop-shadow-md">
   
                     <div className="bg-white">
@@ -72,7 +78,11 @@ export default function ModalAddHardware({user}:ModalAddHardwareComponents) {
                           </div>
                           <div className="editForm-labels">Owner:</div>
                           <div>
-                            <input id="owner" name="owner" className="editForm-inputBox"/>
+                            <select id="owner" name="owner" className="editForm-inputBox">
+                              {
+                                fullNameArr?.map((name,ind) => <option value={name} key={ind + 'add'}>{name}</option>)
+                              }
+                            </select>
                           </div>
                           <div className="editForm-labels">Last Date Modified:</div>
                           <div>

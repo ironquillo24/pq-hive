@@ -5,8 +5,7 @@ import DbMaintenance from "../components/DbMaintenance"
 import ButtonSelector from "../components/ButtonSelector"
 import { redirect } from 'next/navigation'
 import { Data } from "@/dbSchema"
-import ReturnAllButton from "../components/buttons/ReturnAllButton"
-import { returnAllItems } from "@/actions"
+import ReturnAllForm from "../components/forms/ReturnAllForm"
 
 export default async function MyHardware(){
 
@@ -43,14 +42,7 @@ export default async function MyHardware(){
 
   {isDataAvail?
     <div className="flex justify-center">
-      <form action={returnAllItems} className=" border-solid border-[1px] border-slate-200 p-2 h-[200px] mt-4">
-        <input type="hidden" name="user" value={session.fullName!} readOnly/>
-        <div className="max-w-[100px] text-xs mb-2 font-medium">Comment on location for returning all items at once:</div>
-        <textarea name='comments' maxLength={60} className="w-[100px] mb-2 border-2 border-solid border-slate-300 text-sm resize-none" required/>
-        <button type="submit" className="flex items-center justify-center bg-slate-200 text-black hover:bg-slate-700 hover:text-white font-medium px-4 py-2 rounded text-sm border-solid border-2 border-slate-400">
-            Return all
-        </button>
-      </form> 
+      <ReturnAllForm user={session.fullName!} />
     </div>:
     <div></div>
     }

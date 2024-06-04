@@ -32,9 +32,9 @@ export default function ButtonSelector({data, user, userID, isAdminActivated}: B
             <ReturnButton data={data} />
             <TransferButton data={data} />
           </>
-        } else {
+        } /* else {
           return <BorrowFromOwner />
-        }
+        } */
     } else {
       return <></>
     }

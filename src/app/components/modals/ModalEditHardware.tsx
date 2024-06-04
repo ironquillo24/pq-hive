@@ -13,15 +13,14 @@ interface ModalEditHardwareProps{
 export default function ModalEditHardware({user}:ModalEditHardwareProps) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const modalEditHardware = searchParams.get("editHardware");
-
-    const isEnabled = modalEditHardware === 'true'
+    const modalEditHardware = searchParams.get("editHardware") ===  'true'
     
     const hardwareid = searchParams.get("hardwareid") as string
 
-    const {data: allUsers} = useGetAllUserFullnames(isEnabled)
+    const {data: allUsers} = useGetAllUserFullnames(modalEditHardware)
 
-    const {data: hardware} = useGetDataById(hardwareid,'edit',isEnabled)
+    //get all users, enabled only when this modal is open
+    const {data: hardware} = useGetDataById(hardwareid,'edit',modalEditHardware)
     
       
     let fullNameArr: string[] =[]

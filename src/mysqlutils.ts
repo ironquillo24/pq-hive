@@ -414,3 +414,47 @@ export async function editHardwareByID(data: any[]){
     throw err;
   }
 }
+
+export async function addHardware(data: any[]){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  try{
+    const result = await pool.query(
+      `INSERT INTO masterlist SET
+      (
+        hardwareid,
+        pspec,
+        type,
+        generic,
+        package,
+        leadcount,
+        description,
+        status,
+        comments,
+        owner,
+        qtyRequest,
+        supplier,
+        supplierPartNumber,
+        requestor,
+        typeAcronym,
+        barcode,
+        serialNumber,
+        withTag,
+        focusteam
+      )
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`
+      ,data)
+    pool.end()
+
+  } catch (err){
+
+          console.error("Error deleting multiple data in db")
+    throw err;
+  }
+}
