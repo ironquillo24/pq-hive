@@ -71,10 +71,10 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
     supplier: '',
     supplierPartNumber: '',
     requestor: '',
-    typeacronym: '',
+    typeAcronym: '',
     barcode: '',
-    serialnumber: '',
-    withtag: '',
+    serialNumber: '',
+    withTag: '',
     focusteam: '',
     tags: '',
     inUseDuration: 'In Use Duration(days)' 

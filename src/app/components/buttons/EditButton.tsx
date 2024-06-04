@@ -12,10 +12,7 @@ export default function EditButton({data}: EditButtonComponents){
 
   const router = useRouter();
   const handleClick = () => {
-    const path1 = `?editHardware=true&dataID=${data.id}`//&hardwareID=${hardwareID}&pSpecs=${pSpecs}&type=${type}&`
-/*     const path2 = `description=${description}&status=${status}&comments=${comments}&user=${user}&`
-    const path3 = `lastDateModified=${lastDateModified}&owner=${owner}&inUseDuration=${inUseDuration}` */
-    const path = path1 //+path2+path3
+    const path = `?editHardware=true&hardwareid=${data.hardwareid}`
     router.push(path)
   }
 

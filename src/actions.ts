@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-import { getByHardwareid, updateSingleData, updateLogs, getCartDataByUserid, updateMultipleHardware, deleteMultipleCartData, getHardwareByOwner } from './mysqlutils'
+import { getByHardwareid, updateSingleData, updateLogs, getCartDataByUserid, updateMultipleHardware, deleteMultipleCartData, getHardwareByOwner, editHardwareByID} from './mysqlutils'
 import { error } from 'console'
 
 export async function borrowItem(formData: FormData){
@@ -183,8 +183,6 @@ export async function editItem(formData: FormData){
     const status: string = String(formData.get('status'))
     const comments: string = String(formData.get('comments'))
     const owner:string = String(formData.get('owner'))
-    //const lastDateModified:string = String(formData.get('lastDateModified'))
-   // const inUseDuration: string = String(formData.get('inUseDuration'))
     const qtyRequest: string = String(formData.get('qtyRequest'))
     const supplier:string = String(formData.get('supplier'))
     const supplierPartNumber: string = String(formData.get('supplierPartNumber'))
@@ -194,20 +192,11 @@ export async function editItem(formData: FormData){
     const serialNumber: string = String(formData.get('serialNumber'))
     const withTag: string = String(formData.get('withTag'))
     const focusTeam: string = String(formData.get('focusTeam'))
-  
-    const today = new Date();
-    const month = today.getMonth()+1;
-    const year = today.getFullYear();
-    const date = today. getDate();
-    const hours = today.getHours();
-    const minutes = ((today.getMinutes()<10)? ( '0' + today.getMinutes()) : today.getMinutes())
-  
-    const currentDate = month + "/" + date + "/" + year + " " + hours + ":" +  minutes;
-    const inUseDuration: string = `=NOW()-L${dataID+1}`
 
-    const data: (string | null) []= [String(dataID),hardwareID,pSpecs,type,generic,devicePackage,leadCount,description,status,comments,owner,currentDate,inUseDuration,qtyRequest,supplier,supplierPartNumber,requestor,typeAcronym,barcode,serialNumber,withTag,focusTeam]
+    const data = [hardwareID,pSpecs,type,generic,devicePackage,leadCount,description,status,comments,owner,qtyRequest,supplier,supplierPartNumber,requestor,typeAcronym,barcode,serialNumber,withTag,focusTeam,dataID]
 
-    //await modifySheetData(data,true)
+    const result = await editHardwareByID(data)
+    
     revalidatePath('/')
     redirect('/')
 }

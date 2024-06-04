@@ -15,10 +15,10 @@ const defaultData = {
   supplier: '',
   supplierPartNumber: '',
   requestor: '',
-  typeacronym: '',
+  typeAcronym: '',
   barcode: '',
-  serialnumber: '',
-  withtag: '',
+  serialNumber: '',
+  withTag: '',
   focusteam: '',
   tags: '',
   inUseDuration: ''
