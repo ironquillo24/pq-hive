@@ -15,10 +15,10 @@ export interface Data {
   supplier: string,
   supplierPartNumber: string,
   requestor: string,
-  typeacronym: string,
+  typeAcronym: string,
   barcode: string,
-  serialnumber: string,
-  withtag: string,
+  serialNumber: string,
+  withTag: string,
   focusteam: string,
   tags?: string
   inUseDuration: number | string

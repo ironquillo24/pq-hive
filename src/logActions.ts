@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import bcrypt from 'bcrypt'
-import { getUserByUsername } from './mysqlutils'
+import { getUserByUsername,changePasswordByID } from './mysqlutils'
 
 
 export const getSession = async() => {
@@ -62,6 +62,29 @@ export const logout = async() =>{
 
 }
 
+export const changePassword = async (prevState: { error: undefined | string},
+  formData:FormData) => {
+  
+  const session = await getSession()
+
+  const newPassword = String(formData.get('newPassword')).replaceAll(" ", "")
+  const repeatPassword = formData.get('repeatPassword') as string
+
+  if(newPassword.length <6){
+    return {error: "password must be atleast 6 characters"}
+  }
+
+  if ((newPassword !== repeatPassword) || newPassword==="") {
+    return {error: "password do not match"}
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword,10)
+
+  await changePasswordByID(session.userID!,hashedPassword)
+
+  return {success: "password successfully changed!"}
+}
+
 export const register = async(
   prevState: { error: undefined | string},
   formData:FormData) => {
@@ -74,25 +97,6 @@ export const register = async(
   const email = formData.get("email") as string
   const team = formData.get("team") as string
   const nickname = formData.get("nickname") as string
-
- /*  const userDataSheet:any = await getSheetsData('UserData!A1:K',false)
-  const userData = userDataSheet[1]
-
-  const dataID = String(userData.length)
-  
-
-  for (const user of userData){
-    if (username === user[8]){
-      return {error: "username already taken"}
-    }
-  }
-  
-  const fullName = firstName + ' ' + lastName
-
-  const hashedPassword = await bcrypt.hash(password,10)
-
-  const data= [dataID, employeeNumber,lastName,firstName,email,fullName,team,nickname,username,hashedPassword] */
- // await modifyUserData(data,false)
   revalidatePath('/login')
   redirect('/login')
 

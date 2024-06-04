@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-import { getByHardwareid, updateSingleData, updateLogs, getCartDataByUserid, updateMultipleHardware, deleteMultipleCartData, getHardwareByOwner } from './mysqlutils'
+import { getByHardwareid, updateSingleData, updateLogs, getCartDataByUserid, updateMultipleHardware, deleteMultipleCartData, getHardwareByOwner, editHardwareByID, addHardware} from './mysqlutils'
 import { error } from 'console'
 
 export async function borrowItem(formData: FormData){
@@ -183,8 +183,6 @@ export async function editItem(formData: FormData){
     const status: string = String(formData.get('status'))
     const comments: string = String(formData.get('comments'))
     const owner:string = String(formData.get('owner'))
-    //const lastDateModified:string = String(formData.get('lastDateModified'))
-   // const inUseDuration: string = String(formData.get('inUseDuration'))
     const qtyRequest: string = String(formData.get('qtyRequest'))
     const supplier:string = String(formData.get('supplier'))
     const supplierPartNumber: string = String(formData.get('supplierPartNumber'))
@@ -194,65 +192,42 @@ export async function editItem(formData: FormData){
     const serialNumber: string = String(formData.get('serialNumber'))
     const withTag: string = String(formData.get('withTag'))
     const focusTeam: string = String(formData.get('focusTeam'))
-  
-    const today = new Date();
-    const month = today.getMonth()+1;
-    const year = today.getFullYear();
-    const date = today. getDate();
-    const hours = today.getHours();
-    const minutes = ((today.getMinutes()<10)? ( '0' + today.getMinutes()) : today.getMinutes())
-  
-    const currentDate = month + "/" + date + "/" + year + " " + hours + ":" +  minutes;
-    const inUseDuration: string = `=NOW()-L${dataID+1}`
 
-    const data: (string | null) []= [String(dataID),hardwareID,pSpecs,type,generic,devicePackage,leadCount,description,status,comments,owner,currentDate,inUseDuration,qtyRequest,supplier,supplierPartNumber,requestor,typeAcronym,barcode,serialNumber,withTag,focusTeam]
+    const data = [hardwareID,pSpecs,type,generic,devicePackage,leadCount,description,status,comments,owner,qtyRequest,supplier,supplierPartNumber,requestor,typeAcronym,barcode,serialNumber,withTag,focusTeam,dataID]
 
-    //await modifySheetData(data,true)
+    const result = await editHardwareByID(data)
+    
     revalidatePath('/')
     redirect('/')
 }
 
 export async function addItem(formData: FormData){
 
-  const hardwareID: string = String(formData.get('hardwareID'))
-  const pSpecs: string = String(formData.get('pSpecs'))
-  const type: string = String(formData.get('type'))
-  const generic: string = String(formData.get('generic'))
-  const devicePackage: string = String(formData.get('devicePackage'))
-  const leadCount: string = String(formData.get('leadCount'))
-  const description: string = String(formData.get('description'))
-  const status: string = String(formData.get('status'))
-  const comments: string = String(formData.get('comments'))
-  const owner:string = String(formData.get('owner'))
-  //const lastDateModified:string = String(formData.get('lastDateModified'))
-  //const inUseDuration: string = String(formData.get('inUseDuration'))
-  const qtyRequest: string = String(formData.get('qtyRequest'))
-  const supplier:string = String(formData.get('supplier'))
-  const supplierPartNumber: string = String(formData.get('supplierPartNumber'))
-  const requestor: string = String(formData.get('requestor'))
-  const typeAcronym: string = String(formData.get('typeAcronym'))
-  const barcode: string = String(formData.get('barcode'))
-  const serialNumber: string = String(formData.get('serialNumber'))
-  const withTag: string = String(formData.get('withTag'))
-  const focusTeam: string = String(formData.get('focusTeam'))
+  const hardwareID = String(formData.get('hardwareID'))
+  const pSpecs = String(formData.get('pSpecs'))
+  const type = String(formData.get('type'))
+  const generic = String(formData.get('generic'))
+  const devicePackage = String(formData.get('devicePackage'))
+  const leadCount = String(formData.get('leadCount'))
+  const description = String(formData.get('description'))
+  const status = String(formData.get('status'))
+  const comments = String(formData.get('comments'))
+  const owner = String(formData.get('owner'))
+  const qtyRequest = String(formData.get('qtyRequest'))
+  const supplier = String(formData.get('supplier'))
+  const supplierPartNumber = String(formData.get('supplierPartNumber'))
+  const requestor = String(formData.get('requestor'))
+  const typeAcronym = String(formData.get('typeAcronym'))
+  const barcode = String(formData.get('barcode'))
+  const serialNumber = String(formData.get('serialNumber'))
+  const withTag = String(formData.get('withTag'))
+  const focusTeam = String(formData.get('focusTeam'))
 
-  const today = new Date();
-  const month = today.getMonth()+1;
-  const year = today.getFullYear();
-  const date = today. getDate();
-  const hours = today.getHours();
-  const minutes = ((today.getMinutes()<10)? ( '0' + today.getMinutes()) : today.getMinutes())
+  const data = [hardwareID,pSpecs,type,generic,devicePackage,leadCount,description,status,comments,
+    owner,qtyRequest,supplier,supplierPartNumber,requestor,typeAcronym,barcode,serialNumber,withTag,focusTeam]
 
-/*   const currentDate = month + "/" + date + "/" + year + " " + hours + ":" +  minutes;
+  await addHardware(data)
 
-  const sheetData: any = await getSheetsData('MasterList!A1:A', false)
-
-  const dataID = sheetData[1].length
-  const inUseDuration: string = `=NOW()-L${dataID+1}`
-
-  const data:string[] = [String(dataID),hardwareID,pSpecs,type,generic,devicePackage,leadCount,description,status,comments,owner,currentDate,inUseDuration,qtyRequest,supplier,supplierPartNumber,requestor,typeAcronym,barcode,serialNumber,withTag,focusTeam]
- */
-  // await modifySheetData(data,false)
   revalidatePath('/')
   redirect('/') 
 }

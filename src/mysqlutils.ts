@@ -1,6 +1,6 @@
 'use server'
 import mysql from 'mysql2'
-import {Data, User} from "@/dbSchema";
+import { Data, User } from './dbSchema';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
 import {createPool, FieldPacket, Pool} from 'mysql2/promise';
@@ -373,3 +373,110 @@ export async function deleteCartData(cartid: string){
 
 }
 
+export async function editHardwareByID(data: any[]){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  try{
+    const result = await pool.query(
+      `UPDATE masterlist SET
+        hardwareid = ?,
+        pspec = ?,
+        type =?,
+        generic =?,
+        package =?,
+        leadcount =?,
+        description =?,
+        status =?,
+        comments =?,
+        owner =?,
+        qtyRequest =?,
+        supplier =?,
+        supplierPartNumber =?,
+        requestor =?,
+        typeAcronym =?,
+        barcode =?,
+        serialNumber=?,
+        withTag =?,
+        focusteam=?
+        WHERE id = ?;`
+      ,data)
+    pool.end()
+
+  } catch (err){
+
+          console.error("Error deleting multiple data in db")
+    throw err;
+  }
+}
+
+export async function addHardware(data: any[]){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  try{
+    const result = await pool.query(
+      `INSERT INTO masterlist SET
+      (
+        hardwareid,
+        pspec,
+        type,
+        generic,
+        package,
+        leadcount,
+        description,
+        status,
+        comments,
+        owner,
+        qtyRequest,
+        supplier,
+        supplierPartNumber,
+        requestor,
+        typeAcronym,
+        barcode,
+        serialNumber,
+        withTag,
+        focusteam
+      )
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`
+      ,data)
+    pool.end()
+
+  } catch (err){
+
+          console.error("Error deleting multiple data in db")
+    throw err;
+  }
+}
+
+export async function changePasswordByID(id: number,password: string){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  const data = [password,id]
+
+  try{
+    const result = await pool.query(
+      `UPDATE user_schema SET password = ? WHERE id = ?;`,data)
+      pool.end()
+  } catch (err){
+    console.error('error updating password in db')
+    throw err
+  }
+
+}

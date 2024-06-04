@@ -6,12 +6,14 @@ import { borrowCart } from "../../../actions"
 import { useGetCartData, useGetCurrentUser } from "@/get-client-data";
 import { useRemoveFromCart } from "@/post-client-data"
 import RemoveFromCartButton from "../buttons/RemoveFromCartButton";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ModalCart() {
 
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const router = useRouter()
+    const queryClient = useQueryClient()
 
     const modalCart = searchParams.get("cart")
    
@@ -23,12 +25,13 @@ export default function ModalCart() {
 
     const removeItem = useRemoveFromCart()
 
+
     return (
         <>
             {getData &&
                 (
                 
-                <form action={borrowCart} //borrowItem 
+                <form action={borrowCart}
                     className="fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center"
                     >
                     <input type='hidden' name="userFullname" value={userData?.fullName} />

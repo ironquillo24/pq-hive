@@ -13,13 +13,15 @@ export default function ModalChangeOwner() {
 
     const modalChangeOwner = searchParams.get("transferItem");
     const hardwareID = searchParams.get('hardwareID') || '' as string
+
+    
    
     const getData = modalChangeOwner === 'true'
     const data = useGetHardwareAndUser(hardwareID,'transfer', getData, true)
     const hardware = data[0].data!
     const currentUser = data[1].data
     const usersFullname = data[2].data!
-
+    
     //no queries yet
     if (hardware === undefined){
         return null
@@ -30,7 +32,7 @@ export default function ModalChangeOwner() {
         router.replace(`${pathname}?notAvailable=true`)
     }
     
-    let fullNameArr: string[] = []
+    let fullNameArr: string[] =[]
     usersFullname?.map((user) => (user.fullname!==currentUser) ? fullNameArr.push(user.fullname) : null)
 
     return (

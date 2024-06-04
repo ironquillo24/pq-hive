@@ -6,7 +6,7 @@ import LoginButton from "../buttons/LoginButton"
 export default function LoginForm(){
 
   const [state,formAction] = useFormState<any,FormData>(login,undefined)
-
+  
   const isDark = false
   const bgColorForm =  isDark? 'bg-slate-800 text-white' : 'bg-white'
   const bgColorInput = isDark? 'bg-slate-700 text-white' : ''

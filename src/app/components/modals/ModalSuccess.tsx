@@ -12,7 +12,7 @@ export default function ModalSuccess() {
     const queryClient = useQueryClient()
 
     const handleOnClick = () =>{
-            queryClient.invalidateQueries({ queryKey: ['ACT10004','borrow'] })
+            queryClient.invalidateQueries({ queryKey: ['cart'] })
     }
 
     let message = ''

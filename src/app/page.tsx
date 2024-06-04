@@ -4,6 +4,9 @@ import {getSession} from '@/logActions'
 import DbMaintenance from "./components/DbMaintenance"
 import { redirect } from "next/navigation"
 import { getCartDataByUserid } from "@/mysqlutils"
+import ModalEditHardware from "./components/modals/ModalEditHardware"
+import ModalAddHardware from "./components/modals/ModalAddHardware"
+
 
 export const dynamic = 'force-dynamic'
 
@@ -47,11 +50,11 @@ export default async function Home()
 
   return (
     <>
-      <div className="flex relative justify-center">
+      <div className="flex">
         { data? <Hardware hardwareData={data} user={user} userID={userID} isAdmin={isAdmin} cartData={cartData} /> : <p>no data</p> }
         
-{/*         <ModalEditHardware data={data} user={user}/>
-        <ModalAddHardware user={user}/> */}
+        <ModalEditHardware user={user}/>
+        <ModalAddHardware user={user}/> 
         
       </div>
        
