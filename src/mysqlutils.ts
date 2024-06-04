@@ -458,3 +458,25 @@ export async function addHardware(data: any[]){
     throw err;
   }
 }
+
+export async function changePasswordByID(id: number,password: string){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  const data = [password,id]
+
+  try{
+    const result = await pool.query(
+      `UPDATE user_schema SET password = ? WHERE id = ?;`,data)
+      pool.end()
+  } catch (err){
+    console.error('error updating password in db')
+    throw err
+  }
+
+}
