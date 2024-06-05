@@ -6,6 +6,8 @@ export interface SessionData{
   userName?: string,
   nickName?: string,
   fullName?: string,
+  email?: string,
+  team?: string,
   isAdmin?: boolean,
   isSuperAdmin?: boolean,
   isLoggedIn: boolean

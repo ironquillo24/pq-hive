@@ -1,72 +1,54 @@
-'use client'
+'use server'
 import CardWithImage from "../components/CardWithImage"
 import Image from "next/image"
 import CardNoImage from "../components/CardNoImage"
-import { useEffect, useState } from "react"
-import { useFormState, useFormStatus } from "react-dom"
-import { changePassword } from "@/logActions"
-import ChangePasswordButton from "../components/buttons/ChangePasswordButton"
+import ChangePasswordForm from "../components/forms/ChangePasswordForm"
+import { getSession } from "@/logActions"
 
-export default function ProfilePage(){
+export default async function ProfilePage(){
+ 
+  const session = await getSession()
 
-  const [resetClicked, setResetClicked] = useState(false)
+  let accessType  = ''
 
-  const [state,formAction] = useFormState<any,FormData>(changePassword,undefined)
-
-  const { pending } = useFormStatus()
-
-  const onReset = () => {
-   
-      setResetClicked(!resetClicked)
-    
+  if (session.isSuperAdmin){
+    accessType = 'Admin'
+  } else {
+    if (session.isAdmin){
+      accessType = 'Custodian'
+    } else {
+      accessType = 'User'
+    }
   }
-  
 
   return (<>
   
-    <div  className="grid grid-cols-[40%_60%] min-h-[700px] bg-black">
-      <div className="flex min-w-[600px] justify-center ml-[20px]"> 
-        <div className="mt-[50px] min-w-[600px] max-w-[610px] max-h-[500px] p-0">
-          <CardWithImage>
-            <div className="relative min-w-[300px] min-h-[300px]">
+    <div  className="grid grid-cols-[50%_50%] min-h-[700px] w-full bg-slate-900">
+      
+      <div className="max-h-[500px] justify-self-center mt-[40px]"> 
+        <CardWithImage userInfo={session}>
+          <div className="relative min-w-[300px] min-h-[300px] ">
             <Image
-              src='/assets/default-profile-pic.jpg'
+              src='/assets/default-profile-pic.jpg' 
               fill={true}
+              //style={{objectFit: "cover"}}
               alt='profile-pic'
-              className="rounded-t-lg "
+              className="rounded-t-lg bg-cover"
             />
           </div>
-          </CardWithImage>
-        </div>
+        </CardWithImage>
       </div>
       
       <div className="min-w-[800px]">
         <div className="w-[500px] justify-self-center mt-[150px] ">
           <CardNoImage>
-            <div className="grid grid-cols-[30%_70%] py-[50px] text-lg text-white text-center pl-[20px]">
-              <div>Nickname:</div><div>Ian</div>
-              <div>Type:</div><div>User</div>
-              <div>Username:</div><div>cronqui</div>
-              {!resetClicked &&
-                <button type='button' className=" items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-4" onClick={onReset}>reset password</button>
-              }
+            <div className="grid grid-cols-[30%_70%] text-lg text-white pl-[20px]">
+              <div className="text-right">Nickname:</div><div className="text-center">{session.nickName}</div>
+              <div className="text-right">Access:</div><div className="text-center">{accessType}</div>
+              <div className="text-right">Username:</div><div className="text-center">cronqui</div>
             </div>
-            
-            {resetClicked ?
-              <form action={formAction} >
-                <div className="grid grid-cols-[30%_70%] text-white text-left">
-                  <div>new password:</div>
-                  <input type="password" name="newPassword" required className="text-black mt-2"></input>
-                  <div>repeat password:</div>
-                  <input type="password" name="repeatPassword" required className="text-black mt-2"></input>
-                </div>
-                
-                {state?.success ? <p className="py-2 text-green-500">{state.success}</p> : null} <div></div>
-                {state?.error ? <p className="py-2 text-red-500">{state.error}</p> : null} <div></div>
-                 <ChangePasswordButton />
-              </form>
-              : null
-            }
+          
+          <ChangePasswordForm />
           </CardNoImage>
         </div>
       </div>

@@ -28,7 +28,7 @@ export default async function RootLayout(
     <html lang="en">
       <body className={`font-sans${bgColor}`}>
       <ReactQueryProvider>
-        <header className="fixed w-full min-w-screen z-[10] bg-white"><Header/></header>
+        <header className="fixed w-full min-w-screen z-[10] bg-white"><Header session={session}/></header>
         
           <main className="pt-[65px]">
             {props.children}
@@ -40,6 +40,7 @@ export default async function RootLayout(
           <ModalChangeOwner />
           <ModalCart />
       </ReactQueryProvider>
+      
       </body>
     </html>
   )

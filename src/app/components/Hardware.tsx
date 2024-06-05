@@ -6,6 +6,7 @@ import {Data} from '@/dbSchema'
 import { CartData } from '@/mysqlutils'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import Image from "next/image"
 
 interface HardwareProps {
   hardwareData: Data[]
@@ -95,13 +96,21 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
   }
 
   return (
-    <div className='inline-block resize border-gray-200 max-w-[1500px] bg-slate-200 min-w-[1500px]' > 
+    <div className='inline-block resize border-gray-200 max-w-[1500px] bg-slate-200 min-w-[1200px]' > 
       <div className="fixed w-full bg-white pt-2 pl-2">
         <div className="flex relative mt-2">
           <div className={`font-bold pr-2 ${textColor}`}>Search: </div>
-          <input type="text" id='searchField' value={inputValue} onChange={handleInputChange} onKeyDown={onEnter} className={`border-solid border-2 border-slate-400 mb-4 ${bgColor}s`} /> 
+            <input type="text" id='searchField' value={inputValue} onChange={handleInputChange} onKeyDown={onEnter}
+              className={`border-solid border-2 border-slate-400 mb-4 h-8 ${bgColor}s`} /> 
           { isAdmin? (
             <div className='flex gap-4 absolute right-[20px]'>
+              <Image
+                src="/assets/PQ-Hive-logo-trans.png"
+                width={150}
+                height={120}
+                alt="PQ Hive"
+                className="p-0 ml-2 mr-4"
+              />
               <AdminControls handleOnAdminClick={handleOnAdminClick} showAdminControls={showAdminControls}/>
             </div>
           ) : <div></div>
@@ -111,7 +120,7 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
 
       <div className='pt-[60px]'>
         {isDataAvailable? (
-          <div className="grid grid-cols-10 font-bold min-w-[1500px] pl-2">
+          <div className="grid grid-cols-10 font-bold min-w-[1200px] pl-2">
             <HardwareList data={tableHeader} isButton={false} user={user} userID={userID} isAdminActivated={showAdminControls}/> 
           </div>
         ) :  
@@ -124,7 +133,7 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
               {searchedData.map((hardwareInfo) => {
                 //console.log(hardwareInfo) 
                 return (
-                  <li key={hardwareInfo.id} className={"grid grid-cols-10 gap-0 min-w-[1500px] bg-white hover:bg-slate-200 my-[3px] rounded border-solid border-2"}>
+                  <li key={hardwareInfo.id} className={"grid grid-cols-10 gap-0 min-w-[1200px] bg-white hover:bg-slate-200 my-[3px] rounded border-solid border-2"}>
                     <HardwareList data={hardwareInfo} isButton={true} user={user} userID={userID} isAdminActivated={showAdminControls}/>
                 </li>
               )})

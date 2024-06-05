@@ -41,6 +41,8 @@ export const login = async(
 
     session.userID = userdb.id
     session.employeeID = Number(userdb.employeeid)
+    session.email = userdb.email
+    session.team = userdb.team
     session.userName = userdb.username
     session.isAdmin = userdb.isAdmin.toString() === '1'
     session.fullName = userdb.fullname
@@ -72,18 +74,18 @@ export const changePassword = async (prevState: { error: undefined | string},
   const repeatPassword = formData.get('repeatPassword') as string
 
   if(newPassword.length <6){
-    return {error: "password must be atleast 6 characters"}
+    return {error: "password must be atleast 6 characters."}
   }
 
   if ((newPassword !== repeatPassword) || newPassword==="") {
-    return {error: "password do not match"}
+    return {error: "password do not match."}
   }
 
   const hashedPassword = await bcrypt.hash(newPassword,10)
 
   await changePasswordByID(session.userID!,hashedPassword)
 
-  return {success: "password successfully changed!"}
+  return {success: "password changed successfully!"}
 }
 
 export const register = async(
