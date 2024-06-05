@@ -3,22 +3,38 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-import { getByHardwareid, updateSingleData, updateLogs, getCartDataByUserid, updateMultipleHardware, deleteMultipleCartData, getHardwareByOwner, editHardwareByID, addHardware} from './mysqlutils'
+import { getByHardwareid, updateSingleData, updateLogs, getCartDataByUserid, updateMultipleHardware, deleteMultipleCartData, getHardwareByOwner, editHardwareByID, addHardware, getAllUserEmployeeID, insertMultipleLogs} from './mysqlutils'
 import { error } from 'console'
 
-export async function borrowItem(formData: FormData){
+export async function borrowItem(prevState: { error: undefined | string},
+  formData:FormData){
   
 
   const hardwareid = formData.get('dataID') as string
   const comments = formData.get('comments') as string
-  const newOwner= formData.get('owner') as string
   const previousOwner = formData.get('previousOwner') as string
   const previousStatus = formData.get('previousStatus') as string
+  const isAdmin = formData.get('isAdmin') === 'true'
   const redirectPathname = `/?success=true&successType=borrow`
+
+  let newOwner = formData.get("user") as string
 
   const uid = (()=> Date.now().toString(36) + Math.random().toString(36))()
 
   const data = await getByHardwareid(hardwareid);
+
+  if (isAdmin){
+    const id = String(formData.get("id"))
+    
+    const userEmployeeIDArr = await getAllUserEmployeeID()
+
+    const borrower = userEmployeeIDArr.find(user => id === user.employeeid) 
+
+    if(borrower === undefined)
+      return {error: "no matching user"}
+
+    newOwner = borrower.fullname
+  } 
 
     if (data.status.toLowerCase().includes('storage')) {
       
@@ -134,10 +150,16 @@ export async function borrowCart(formData: FormData){
 
   let hardwareIdArray = []
   let cartItemforDelete = []
+  let logArray = []
 
   for (let item of availData){
+
+    const uid = (()=> Date.now().toString(36) + Math.random().toString(36))()
     hardwareIdArray.push(item.hardwareid)
     cartItemforDelete.push(item.cartid)
+    logArray.push(uid,item.owner,item.status,"IN USE",newOwner,comments)
+    
+     /* [logid,previousOwner,previousStatus,newStatus,newOwner,comments] */
   }
   
   if (!availData.length){
@@ -147,6 +169,7 @@ export async function borrowCart(formData: FormData){
 
   try{
     const resultUpdate = await updateMultipleHardware(userInput,hardwareIdArray)
+    const resultInsert = await insertMultipleLogs(logArray)
   } catch (err) {
     console.error("error updating multple hardware data in db")
     throw error
@@ -253,12 +276,18 @@ export async function returnAllItems(formData: FormData){
 
   const info = [comments,userFullname,'RETURNED']
   let hardwareIdArray = []
+
+  let logArray = []
   for (let item of filteredData){
+    const uid = (()=> Date.now().toString(36) + Math.random().toString(36))()
     hardwareIdArray.push(item.hardwareid)
+    logArray.push(uid,item.owner,item.status,"RETURNED",userFullname,comments)
   }
   
   const result = await updateMultipleHardware(info,hardwareIdArray)
+  const resultLogs = await insertMultipleLogs(logArray)
 
   revalidatePath('/')
   revalidatePath('/myhardware')
 }
+

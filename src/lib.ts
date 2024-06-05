@@ -2,6 +2,7 @@ import { SessionOptions } from "iron-session"
 
 export interface SessionData{
   userID?: number,
+  employeeID?: number,
   userName?: string,
   nickName?: string,
   fullName?: string,

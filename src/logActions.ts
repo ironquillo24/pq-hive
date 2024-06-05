@@ -40,6 +40,7 @@ export const login = async(
     }
 
     session.userID = userdb.id
+    session.employeeID = Number(userdb.employeeid)
     session.userName = userdb.username
     session.isAdmin = userdb.isAdmin.toString() === '1'
     session.fullName = userdb.fullname

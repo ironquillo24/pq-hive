@@ -74,7 +74,7 @@ export async function getHardwareByOwner(owner: string){
   }).promise()
   
   try{
-    const result = await pool.query(`SELECT hardwareid, status from masterlist WHERE owner = ?`, owner)
+    const result = await pool.query(`SELECT hardwareid, owner, status from masterlist WHERE owner = ?`, owner)
     pool.end()
     const data = result[0] as Data[]
 
@@ -238,6 +238,7 @@ export interface CartData{
   pspec: string,
   type: string,
   status:string,
+  owner: string
   description: string,
   comment: string,
   fullname: string
@@ -257,6 +258,7 @@ export async function getCartDataByUserid(userid: number){
     masterlist.pspec as pspec, 
     masterlist.type as type,
     masterlist.status as status,
+    masterlist.owner as owner,
     masterlist.description as description,
     masterlist.comments as comment, CONCAT(user_schema.givenname, ' ',user_schema.lastname) as fullname
     FROM cart_logs
@@ -479,4 +481,66 @@ export async function changePasswordByID(id: number,password: string){
     throw err
   }
 
+}
+
+export interface userEmployeeID{
+  employeeid: string
+  fullname: string
+}
+
+export async function getAllUserEmployeeID(){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  try{
+    const result = await pool.query(`SELECT employeeid,CONCAT(givenname,' ',lastname) AS fullname FROM user_schema;`)
+    pool.end()
+    
+    const data = result[0] as userEmployeeID[]
+
+    return data
+  
+  } catch (err) {
+    console.error("Error posting data to db")
+    throw err;
+  }
+}
+
+export async function insertMultipleLogs(data: string[]){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  let valueConstruct = ""
+
+  for(let i = 0; i < data.length/6 ; i++) {
+    valueConstruct += "(?,?,?,?,?,?)"
+    if (i !== (data.length/6)-1)
+      valueConstruct += ","
+  }
+
+  try{
+    const result = await pool.query(
+      `INSERT INTO log_schema 
+        (logid,previousOwner,previousStatus,newStatus,newOwner,comments)
+        VALUES ${valueConstruct};`, data
+      /* [logid,previousOwner,previousStatus,newStatus,newOwner,comments] */
+    )
+    pool.end()
+    
+    return result[0] as ResultSetHeader
+  
+  } catch (err) {
+    console.error("Error posting data to db")
+    throw err;
+  }
 }
