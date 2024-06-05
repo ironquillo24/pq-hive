@@ -19,6 +19,6 @@ export const sessionOptions: SessionOptions={
   cookieName: "hive-session",
   cookieOptions: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production'
+    secure: false //process.env.NODE_ENV === 'production'
   }
 }

@@ -426,7 +426,7 @@ export async function addHardware(data: any[]){
 
   try{
     const result = await pool.query(
-      `INSERT INTO masterlist SET
+      `INSERT INTO masterlist
       (
         hardwareid,
         pspec,
