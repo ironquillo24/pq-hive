@@ -24,9 +24,9 @@ export default function ProfilePage(){
 
   return (<>
   
-    <div  className="grid grid-cols-[40%_60%] min-h-[700px]">
-      <div className="flex min-w-[600px] justify-center">
-        <div className="mt-[100px] min-w-[600px] max-w-[610px] max-h-[500px] p-0">
+    <div  className="grid grid-cols-[40%_60%] min-h-[700px] bg-black">
+      <div className="flex min-w-[600px] justify-center ml-[20px]"> 
+        <div className="mt-[50px] min-w-[600px] max-w-[610px] max-h-[500px] p-0">
           <CardWithImage>
             <div className="relative min-w-[300px] min-h-[300px]">
             <Image
@@ -41,7 +41,7 @@ export default function ProfilePage(){
       </div>
       
       <div className="min-w-[800px]">
-        <div className="w-[500px] justify-self-center mt-[200px] ">
+        <div className="w-[500px] justify-self-center mt-[150px] ">
           <CardNoImage>
             <div className="grid grid-cols-[30%_70%] py-[50px] text-lg text-white text-center pl-[20px]">
               <div>Nickname:</div><div>Ian</div>

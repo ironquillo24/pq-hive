@@ -9,13 +9,13 @@ const CardWithImage = ({children}: CardWithImageProps) => {
 
   return <>
 
-  <div className="max-w-sm w-full h-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+  <div className="max-w-sm w-full h-full border-gray-700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
       {children}
        
       <div className="p-5">
           <a href="#">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">Christian Oliver Ronquillo</h5>
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-white dark:text-white text-center">Christian Oliver Ronquillo</h5>
           </a>
           <div className="grid grid-cols-[30%_70%] text-white text-sm font-medium text-left pb-4">
             <div>Employee id: </div> <div>12345</div>

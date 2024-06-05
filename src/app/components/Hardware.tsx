@@ -4,6 +4,8 @@ import HardwareList from './HardwareList'
 import AdminControls from './buttons/AdminControls'
 import {Data} from '@/dbSchema'
 import { CartData } from '@/mysqlutils'
+import { useRouter } from 'next/navigation'
+import React from 'react'
 
 interface HardwareProps {
   hardwareData: Data[]
@@ -17,6 +19,7 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
 
   const [inputValue, setInputValue] = useState('');
   const [showAdminControls, setShowAdminControls] = useState(false)
+  const router = useRouter()
 
   const isDark = false
   const textColor =  isDark? 'text-white' : 'text-slate-700'
@@ -45,8 +48,19 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
     isDataAvailable = true;
 
 
-  const handleInputChange = (e:any) =>{
-    return setInputValue(e.target.value)
+  const handleInputChange = (e: any) =>{
+
+    setInputValue(e.target.value)
+  }
+
+  const onEnter = (e: any ) => {
+    
+    if ((e.keyCode === 13)&&(inputValue!=='')){
+      const hardware = searchedData[0]
+      if (searchedData.length === 1 && hardware.status === "IN STORAGE")
+        router.push(`/?borrowItem=true&hardwareID=${hardware.hardwareid}`)
+    }
+      
   }
 
   const handleOnAdminClick = () => {
@@ -85,7 +99,7 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
       <div className="fixed w-full bg-white pt-2 pl-2">
         <div className="flex relative mt-2">
           <div className={`font-bold pr-2 ${textColor}`}>Search: </div>
-          <input type="text" id='searchField' value={inputValue} onChange={handleInputChange} className={`border-solid border-2 border-slate-400 mb-4 ${bgColor}s`} /> 
+          <input type="text" id='searchField' value={inputValue} onChange={handleInputChange} onKeyDown={onEnter} className={`border-solid border-2 border-slate-400 mb-4 ${bgColor}s`} /> 
           { isAdmin? (
             <div className='flex gap-4 absolute right-[20px]'>
               <AdminControls handleOnAdminClick={handleOnAdminClick} showAdminControls={showAdminControls}/>
@@ -131,7 +145,7 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
 
 const filterData = (data: Data[], searchWord: string) => {
 
-  const searchedData = data.filter((hardware) => hardware.description.toLowerCase().includes(searchWord.toLowerCase()))
+  const searchedData = data.filter((hardware) => hardware.tags?.toLowerCase().includes(searchWord.toLowerCase()))
 
   return searchedData;
 }

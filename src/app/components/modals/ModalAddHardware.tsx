@@ -33,31 +33,31 @@ export default function ModalAddHardware({user}:ModalAddHardwareComponents) {
                         <div className="grid grid-cols-[150px_300px] grid-rows-10">
                           <div className="editForm-labels">Hardware ID:</div>
                           <div>
-                            <input id="hardwareID" name="hardwareID" className="editForm-inputBox"/>
+                            <input id="hardwareID" name="hardwareID" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">P-Specs:</div>
                           <div>
-                            <input id="pSpecs" name="pSpecs" className="editForm-inputBox"/>
+                            <input id="pSpecs" name="pSpecs" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Type:</div>
                           <div>
-                            <input id="type" name="type" className="editForm-inputBox"/>
+                            <input id="type" name="type" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Generic:</div>
                           <div>
-                            <input id="generic" name="generic" className="editForm-inputBox"/>
+                            <input id="generic" name="generic" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">package:</div>
                           <div>
-                            <input id="devicePackage" name="devicePackage" className="editForm-inputBox"/>
+                            <input id="devicePackage" name="devicePackage" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Lead Count:</div>
                           <div>
-                            <input id="leadCount" name="leadCount" className="editForm-inputBox"/>
+                            <input id="leadCount" name="leadCount" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Status:</div>
                           <div>
-                            <select id="status" name="status" className="editForm-inputBox">
+                            <select id="status" name="status" className="editForm-inputBox" required>
                               <option value="IN STORAGE">IN STORAGE</option>
                               <option value="IN USE">IN USE</option>
                               <option value="RETURNED">RETURNED</option>
@@ -74,11 +74,11 @@ export default function ModalAddHardware({user}:ModalAddHardwareComponents) {
                           </div>
                           <div className="editForm-labels">Comments:</div>
                           <div>
-                            <input id="comments" name="comments" className="editForm-inputBox"/>
+                            <input id="comments" name="comments" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Owner:</div>
                           <div>
-                            <select id="owner" name="owner" className="editForm-inputBox">
+                            <select id="owner" name="owner" className="editForm-inputBox" required>
                               {
                                 fullNameArr?.map((name,ind) => <option value={name} key={ind + 'add'}>{name}</option>)
                               }
@@ -86,57 +86,57 @@ export default function ModalAddHardware({user}:ModalAddHardwareComponents) {
                           </div>
                           <div className="editForm-labels">Last Date Modified:</div>
                           <div>
-                            <input id="lastDateModified" name="lastDateModified" value={` will automatically update to current date`} className="editForm-inputBox text-xs"/>
+                            <input id="lastDateModified" name="lastDateModified" value={` will automatically update to current date`} className="editForm-inputBox text-xs" required/>
                           </div>
                         </div>
                         <div className="grid grid-cols-[150px_300px] grid-rows-10">
                           
                           <div className="editForm-labels">In Use Duration:</div>
                           <div>
-                            <input id="inUseDuration" name="inUseDuration" value="will auto-populate" className="editForm-inputBox text-slate-500"/>
+                            <input id="inUseDuration" name="inUseDuration" value="will auto-populate"  className="editForm-inputBox text-slate-500" required/>
                           </div>
                           <div className="editForm-labels">QTY Requested:</div>
                           <div>
-                            <input id="qtyRequest" name="qtyRequest" className="editForm-inputBox"/>
+                            <input id="qtyRequest" name="qtyRequest" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Supplier:</div>
                           <div>
-                            <input id="supplier" name="supplier" className="editForm-inputBox" />
+                            <input id="supplier" name="supplier" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Supplier Part Number:</div>
                           <div>
-                            <input id="supplierPartNumber" name="supplierPartNumber" className="editForm-inputBox"/>
+                            <input id="supplierPartNumber" name="supplierPartNumber" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Requestor:</div>
                           <div>
-                            <input id="requestor" name="requestor" className="editForm-inputBox"/>
+                            <input id="requestor" name="requestor" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Type Acronym:</div>
                           <div>
-                            <input id="typeAcronym" name="typeAcronym" className="editForm-inputBox"/>
+                            <input id="typeAcronym" name="typeAcronym" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Barcode:</div>
                           <div>
-                            <input id="barcode" name="barcode" className="editForm-inputBox"/>
+                            <input id="barcode" name="barcode" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Serial Number:</div>
                           <div>
-                            <input id="serialNumber" name="serialNumber" className="editForm-inputBox" />
+                            <input id="serialNumber" name="serialNumber" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">With Tag:</div>
                           <div>
-                            <input id="withTag" name="withTag" className="editForm-inputBox" />
+                            <input id="withTag" name="withTag" className="editForm-inputBox" required/>
                           </div>
                           <div className="editForm-labels">Focus Team:</div>
                           <div>
-                            <input id="focusTeam" name="focusTeam" className="editForm-inputBox" />
+                            <input id="focusTeam" name="focusTeam" className="editForm-inputBox" required/>
                           </div>
                         </div>
                       </div>
                       <div className="grid grid-cols-[150px_600px] pl-[50px]">
                         <div className="editForm-labels">Description:</div>
                         <div>
-                          <textarea id="description" name="description" maxLength={200}
+                          <textarea id="description" name="description" maxLength={200} required
                             className="border-solid border-slate-200 border-2 w-[600px] max-h-[100px] resize-none"/>
                         </div>
                       </div>
