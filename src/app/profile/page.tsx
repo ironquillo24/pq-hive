@@ -26,7 +26,7 @@ export default async function ProfilePage(){
     <div  className="grid grid-cols-[50%_50%] min-h-[700px] w-full bg-slate-900">
       
       <div className="max-h-[500px] justify-self-center mt-[40px]"> 
-        <CardWithImage userInfo={session}>
+        <CardWithImage userInfo={session!}>
           <div className="relative min-w-[300px] min-h-[300px] ">
             <Image
               src='/assets/default-profile-pic.jpg' 
@@ -40,9 +40,9 @@ export default async function ProfilePage(){
       </div>
       
       <div className="min-w-[800px]">
-        <div className="w-[500px] justify-self-center mt-[150px] ">
+        <div className="w-[500px] justify-self-center mt-[150px]">
           <CardNoImage>
-            <div className="grid grid-cols-[30%_70%] text-lg text-white pl-[20px]">
+            <div className="grid grid-cols-[30%_70%] text-lg text-white pl-[20px] pb-4">
               <div className="text-right">Nickname:</div><div className="text-center">{session?.nickName}</div>
               <div className="text-right">Access:</div><div className="text-center">{accessType}</div>
               <div className="text-right">Username:</div><div className="text-center">{session?.userName}</div>

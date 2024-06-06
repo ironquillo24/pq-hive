@@ -20,7 +20,7 @@ export default function AdminControls({handleOnAdminClick, showAdminControls}: A
           }
 
           <div>
-            <button type="button" className={`flex items-center justify-center ${adminButtonColor} w-[90px] text-white font-medium py-[4px] px-[2px] rounded text-xs`}onClick={handleOnAdminClick}>{adminButtonText}</button>
+            <button type="button" className={`flex items-center justify-center ${adminButtonColor} w-[100px] text-white font-medium py-[4px] px-[2px] rounded text-xs`}onClick={handleOnAdminClick}>{adminButtonText}</button>
           </div>
           
   </>
