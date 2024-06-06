@@ -25,7 +25,7 @@ export default function RegisterForm(){
       </select>
       <div>Nickname:</div><input type='text' name='nickname' required />
       <br></br>
-      <button type="submit">Register</button>
+      <button type="submit" className="flex items-center justify-center bg-yellow-500 text-white hover:bg-yellow-700 text-white font-medium px-[3px] py-[6px] rounded text-xs mt-4">Register</button>
        {state?.error && <p>{state.error}</p>} 
     </form>
   )

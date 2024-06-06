@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import bcrypt from 'bcrypt'
-import { getUserByUsername,changePasswordByID } from './mysqlutils'
+import { getUserByUsername,changePasswordByID, registerUser } from './mysqlutils'
 
 
 export const getSession = async() => {
@@ -27,7 +27,7 @@ export const login = async(
     const formUsername = formData.get("username") as string
     const formPassword = formData.get('password') as string
 
-    const userdb = await getUserByUsername(formUsername)
+    const userdb = await getUserByUsername(formUsername.toLowerCase())
 
     if (!userdb){
       return {error: "Invalid username or password"}
@@ -92,15 +92,29 @@ export const register = async(
   prevState: { error: undefined | string},
   formData:FormData) => {
 
-  const username = formData.get("username") as string
-  const password = formData.get("password") as string
-  const employeeNumber = formData.get("employeeNumber") as string
+
+  const employeeid = Number(formData.get("employeeNumber"))
   const lastName = formData.get("lastName") as string
-  const firstName = formData.get("firstName") as string
+  const givenName = formData.get("firstName") as string
   const email = formData.get("email") as string
   const team = formData.get("team") as string
   const nickname = formData.get("nickname") as string
+  const username = formData.get("username") as string
+  const password = formData.get("password") as string
+
+  const isUsernameExist = await getUserByUsername(username.toLowerCase())
+  
+  if(isUsernameExist){
+    return {error: "username already in use."}
+  }
+
+  const hashedPassword = await bcrypt.hash(password,10)
+
+  const data = [employeeid,lastName,givenName,email,team,nickname,username.toLowerCase(),hashedPassword]
+
+  const result = await registerUser(data)
+/* 
   revalidatePath('/login')
-  redirect('/login')
+  redirect('/login') */
 
 }

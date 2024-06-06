@@ -20,10 +20,10 @@ export default function LoginForm(){
       </h2>
       <p className="p-3 pl-6 text-sm">Username</p>
 
-      <input className={`${bgColorInput} border-b-2 border-solid border-slate-400 p-1 ml-6 w-[230px]`} type='text' name='username' required />
+      <input className={`${bgColorInput} p-1 ml-6 w-[230px] border-0 border-b-2`} type='text' name='username' required />
 
       <p className="p-3 pl-6 text-sm">Password</p>
-      <input className={`${bgColorInput} border-b-2 border-solid border-slate-400 p-1 ml-6 w-[230px]`} type='password' name="password" required/>
+      <input className={`${bgColorInput} border-0 border-b-2 p-1 ml-6 w-[230px]`} type='password' name="password" required/>
 
       <br/>
       {state?.error ?

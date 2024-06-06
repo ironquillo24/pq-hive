@@ -11,10 +11,10 @@ export default async function ProfilePage(){
 
   let accessType  = ''
 
-  if (session.isSuperAdmin){
+  if (session?.isSuperAdmin){
     accessType = 'Admin'
   } else {
-    if (session.isAdmin){
+    if (session?.isAdmin){
       accessType = 'Custodian'
     } else {
       accessType = 'User'
@@ -43,9 +43,9 @@ export default async function ProfilePage(){
         <div className="w-[500px] justify-self-center mt-[150px] ">
           <CardNoImage>
             <div className="grid grid-cols-[30%_70%] text-lg text-white pl-[20px]">
-              <div className="text-right">Nickname:</div><div className="text-center">{session.nickName}</div>
+              <div className="text-right">Nickname:</div><div className="text-center">{session?.nickName}</div>
               <div className="text-right">Access:</div><div className="text-center">{accessType}</div>
-              <div className="text-right">Username:</div><div className="text-center">cronqui</div>
+              <div className="text-right">Username:</div><div className="text-center">{session?.userName}</div>
             </div>
           
           <ChangePasswordForm />

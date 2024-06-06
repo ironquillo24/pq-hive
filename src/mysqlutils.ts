@@ -544,3 +544,27 @@ export async function insertMultipleLogs(data: string[]){
     throw err;
   }
 }
+
+export async function registerUser(data: any[]){
+
+  const pool= mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  }).promise()
+
+  try{
+    const result = await pool.query(
+      `INSERT INTO user_schema
+        (employeeid,lastname,givenname,email,team,nickname,username,password)
+        VALUES (?,?,?,?,?,?,?,?);`, data)
+    pool.end()
+    
+    return result[0] as ResultSetHeader
+  
+  } catch (err) {
+    console.error("Error posting data to db")
+    throw err;
+  }
+}

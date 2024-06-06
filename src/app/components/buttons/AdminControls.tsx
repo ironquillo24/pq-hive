@@ -7,7 +7,7 @@ interface AdminControlsComponents{
 export default function AdminControls({handleOnAdminClick, showAdminControls}: AdminControlsComponents){
 
   const adminButtonColor = (showAdminControls? 'bg-slate-500 hover:bg-slate-700' : 'bg-green-500 hover:bg-green-700' )
-  const adminButtonText = (showAdminControls? 'Hide Admin Controls' : 'Show Admin Controls')
+  const adminButtonText = (showAdminControls? 'Hide Custodian Controls' : 'Show Custodian Controls')
   
   return (<>
           { showAdminControls &&(
