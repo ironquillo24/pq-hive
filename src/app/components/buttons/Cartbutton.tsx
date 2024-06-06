@@ -17,8 +17,8 @@ export default function Cartbutton(){
       <div className="flex relative">
         <Image
               src="/assets/shopping-cart-icon.png"
-              width={40}
-              height={40}
+              width={35}
+              height={35}
               alt="PQ Hive"
             />
        {cartItemCount ?

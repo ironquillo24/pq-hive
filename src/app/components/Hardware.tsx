@@ -97,12 +97,12 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
 
   return (
     <div className='inline-block resize border-gray-200 max-w-[1500px] bg-slate-200 min-w-[1200px]' > 
-      <div className="fixed w-full bg-white pt-2 pl-2">
+      <div className="fixed w-full bg-white pt-2 pl-2 pb-[15px]">
         <div className="flex relative mt-2">
           <div className={`font-bold pr-2 ${textColor}`}>Search: </div>
             <input type="text" id='searchField' value={inputValue} onChange={handleInputChange} onKeyDown={onEnter}
-              className={`border-solid border-2 border-slate-400 mb-4 h-8 ${bgColor}s`} /> 
-          { isAdmin? (
+              className={`border-solid border-slate-400 mb-4 h-8 ${bgColor}s rounded-full`} /> 
+          
             <div className='flex gap-4 absolute right-[20px]'>
               <Image
                 src="/assets/PQ-Hive-logo-trans.png"
@@ -111,14 +111,13 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
                 alt="PQ Hive"
                 className="p-0 ml-2 mr-4"
               />
-              <AdminControls handleOnAdminClick={handleOnAdminClick} showAdminControls={showAdminControls}/>
+            {isAdmin? <AdminControls handleOnAdminClick={handleOnAdminClick} showAdminControls={showAdminControls}/> : null}
+              
             </div>
-          ) : <div></div>
-          }
         </div>
       </div>
 
-      <div className='pt-[60px]'>
+      <div className='pt-[90px] bg-white'>
         {isDataAvailable? (
           <div className="grid grid-cols-10 font-bold min-w-[1200px] pl-2">
             <HardwareList data={tableHeader} isButton={false} user={user} userID={userID} isAdminActivated={showAdminControls}/> 

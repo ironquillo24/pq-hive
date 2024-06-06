@@ -50,7 +50,7 @@ export default async function Home()
 
   return (
     <>
-      <div className="flex">
+      <div className="flex ">
         { data? <Hardware hardwareData={data} user={user} userID={userID} isAdmin={isAdmin} cartData={cartData} /> : <p>no data</p> }
         
         <ModalEditHardware user={user}/>
