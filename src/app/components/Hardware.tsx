@@ -97,7 +97,7 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
 
   return (
     <div className='inline-block resize border-gray-200 max-w-[1500px] bg-slate-200 min-w-[1200px]' > 
-      <div className="fixed w-full bg-white pt-2 pl-2 pb-[15px]">
+      <div className="fixed w-full bg-white pt-2 pl-2">
         <div className="flex relative mt-2">
           <div className={`font-bold pr-2 ${textColor}`}>Search: </div>
             <input type="text" id='searchField' value={inputValue} onChange={handleInputChange} onKeyDown={onEnter}
@@ -117,7 +117,7 @@ export default function Hardware({hardwareData, user, userID, isAdmin, cartData}
         </div>
       </div>
 
-      <div className='pt-[90px] bg-white'>
+      <div className='pt-[60px] bg-white'>
         {isDataAvailable? (
           <div className="grid grid-cols-10 font-bold min-w-[1200px] pl-2">
             <HardwareList data={tableHeader} isButton={false} user={user} userID={userID} isAdminActivated={showAdminControls}/> 
