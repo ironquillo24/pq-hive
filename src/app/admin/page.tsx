@@ -23,6 +23,9 @@ export default async function SuperAdmin(){
   }
   
   const maintenanceData = await getMaintenanceData();
+  if('error' in maintenanceData){
+    return <div className="h-screen w-screen grid place-items-center"><h2>Error retrieving data. Please try again later.</h2></div>
+  }
   const isMaintaining = maintenanceData[0].flag
 
   return(<>
