@@ -17,12 +17,12 @@ const Nav = ({session}: NavProps) => {
   const path = usePathname()
   const router = useRouter()
   const queryClient = useQueryClient()
-  
+
   const pages = [{path: '/',title: 'PQ-HIVES'},{path: '/myhardware',title:'My Hardware'},{path:'/returned-hardware',title:'Returned Hardware'}]
 
   const onSignout = () => {
     queryClient.clear()
-    router.push('/logout')
+    router.replace('/logout')
   }
   
   return (
@@ -32,7 +32,7 @@ const Nav = ({session}: NavProps) => {
       <Navbar.Brand href="/">
         <Image src="/assets/logo.png" width={150} height={150} alt="Flowbite React Logo" />
       </Navbar.Brand>
-      {session.isLoggedIn ? 
+      {session?.isLoggedIn ? 
       <>
         <div className="flex md:order-2 " >
           <Cart />

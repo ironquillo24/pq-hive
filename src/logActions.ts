@@ -60,7 +60,7 @@ export const logout = async() =>{
 
   const session = await getSession()
   session.destroy()
-  revalidatePath('/login')
+  revalidatePath('/login','layout')
   redirect('/login')
 
 }
