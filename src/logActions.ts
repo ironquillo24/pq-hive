@@ -29,6 +29,10 @@ export const login = async(
 
     const userdb = await getUserByUsername(formUsername.toLowerCase())
 
+    if ('error' in userdb){
+      return {error: "Can't retrieve data. Please try again later"}
+    }
+
     if (!userdb){
       return {error: "Invalid username or password"}
     } 
@@ -83,8 +87,11 @@ export const changePassword = async (prevState: { error: undefined | string},
 
   const hashedPassword = await bcrypt.hash(newPassword,10)
 
-  await changePasswordByID(session.userID!,hashedPassword)
+  const result = await changePasswordByID(session.userID!,hashedPassword)
 
+  if ('error' in result!) {
+    return {error: "Something went wrong. Please try again later."}
+  }
   return {success: "password changed successfully!"}
 }
 

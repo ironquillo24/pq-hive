@@ -25,9 +25,13 @@ export default async function Home()
   
  //get data from masterlist with tags
   const data = await getData(true);
-  const maintenanceData = await getMaintenanceData();
+ 
+  if ('error' in data){
+    return <div className="h-screen w-screen grid place-items-center"><h2>Error retrieving data. Please try again later.</h2></div>
+  }
   
   // check if ongoing maintenance and if user is superAdmin
+  const maintenanceData = await getMaintenanceData();
   const showMaintenance = (maintenanceData[0].flag&&!session.isSuperAdmin)
 
    

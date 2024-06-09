@@ -44,7 +44,7 @@ export default async function RootLayout(
           <ModalReturn />
           <ModalSuccess />
           <ModalChangeOwner />
-          <ModalCart />
+          <ModalCart /> 
       </ReactQueryProvider>
       
       </body>

@@ -2,12 +2,27 @@
 import mysql from 'mysql2'
 import { Data, User } from './dbSchema';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
-
-import {createPool, FieldPacket, Pool} from 'mysql2/promise';
 import defaultData from './defaultData';
 import { error } from 'console';
 
-export async function getData(withTags: boolean){
+type error = {error: string}
+const getErrorMessage = (error: unknown): string => {
+  let message: string
+
+  if (error instanceof Error){
+    message = error.message
+  } else if (error && typeof error ==="object" && "message" in error){
+    message = String(error.message)
+  }else if (typeof error === 'string'){
+    message = error;
+  } else {
+    message = "Something went wrong"
+  }
+
+  return message
+}
+
+export async function getData(withTags: boolean): Promise<Data[] | error>{
 
   const pool= mysql.createPool({
     host: process.env.MYSQL_HOST,
@@ -16,23 +31,26 @@ export async function getData(withTags: boolean){
     database: process.env.MYSQL_DATABASE
   }).promise()
   
+  let result;
   try{
-    let result;
+
     if (withTags){
      result = await pool.query("SELECT *, CONCAT(hardwareid,pspec,type,generic,package,description,status,owner,supplier) AS tags, DATEDIFF(NOW(),datemodified) as inUseDuration  from masterlist;")
     } else {
        result = await pool.query("SELECT * from masterlist;")
     }
-    pool.end()
+    
     const data = result[0] as Data[]
     
     return data
   
-  } catch (err) {
-    console.error("Error fetching data from db")
-    throw err;
+  } catch (err: unknown) {
+    return {
+      error: getErrorMessage(err)
+    }
+  } finally{
+    pool.end()
   }
-
 }
 
 
@@ -104,15 +122,18 @@ export async function getMaintenanceData(){
   
   try{
     const result = await pool.query("SELECT * from maintenance_table;")
-    pool.end()
+    
 
     const data = result[0] as MaintanaceData[]
     
     return data
   
   } catch (err) {
-    console.error("Error fetching data from db")
-    throw err;
+    return {
+      error: getErrorMessage(err)
+    }
+  } finally{
+    pool.end()
   }
 }
 
@@ -209,27 +230,29 @@ export async function getAllFullNames(){
   }
 }
 
-export async function getUserByUsername(username: string){
+export async function getUserByUsername(username: string): Promise<User | error>{
 
-  const pool= mysql.createPool({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE
-  }).promise()
+    const pool= mysql.createPool({
+      host: process.env.MYSQL_HOST,
+      user: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PASSWORD,
+      database: process.env.MYSQL_DATABASE
+    }).promise()
 
   try{
     const result = await pool.query(`SELECT *,CONCAT(givenname,' ',lastname) AS fullname FROM user_schema where username = ?;`, username)
-    pool.end()
     
     const data = result[0] as User[]
     
     return data[0]
   
-  } catch (err) {
-    console.error("Error posting data to db")
-    throw err;
-  }
+  } catch (err: unknown) {
+    return {
+      error: getErrorMessage(err)
+    }
+  } finally {
+    pool.end()
+  } 
 }
 
 export interface CartData{
@@ -475,10 +498,13 @@ export async function changePasswordByID(id: number,password: string){
   try{
     const result = await pool.query(
       `UPDATE user_schema SET password = ? WHERE id = ?;`,data)
-      pool.end()
+      
   } catch (err){
-    console.error('error updating password in db')
-    throw err
+    return {
+      error: getErrorMessage(err)
+    }
+  } finally {
+    pool.end()
   }
 
 }
