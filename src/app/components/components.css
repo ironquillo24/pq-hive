@@ -1,11 +1,11 @@
 .grid-cell {
-  @apply w-auto flex justify-center text-xs text-wrap items-center
+  @apply flex justify-center text-xs text-wrap items-center;
 }
 
 .editForm-labels {
-  @apply font-bold
+  @apply font-bold;
 }
 
 .editForm-inputBox {
-  @apply border-solid border-slate-200 border-2 p-[5px] w-[280px]
+  @apply border-solid border-slate-200 border-2 p-[5px] w-[280px];
 }
