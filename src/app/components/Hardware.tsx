@@ -7,7 +7,7 @@ import { CartData } from "@/mysqlutils";
 import { useRouter } from "next/navigation";
 import React from "react";
 import Image from "next/image";
-import { BadgeHelp, ArrowBigUp, CircleCheck, CircleX } from "lucide-react";
+import Guide from "./Guide";
 
 interface HardwareProps {
   hardwareData: Data[];
@@ -136,8 +136,8 @@ export default function Hardware({
   };
 
   return (
-    <div className="inline-block resize border-gray-200 max-w-[1500px] bg-slate-200 min-w-[1250px]">
-      <div className="fixed w-full bg-white pt-2 pl-2">
+    <div className="inline-block resize border-gray-200  bg-slate-200 md:w-screen">
+      <div className=" w-full bg-white pt-2 pl-2 pb-4 border-b-2">
         <div className="flex relative mt-2">
           <div className={`font-bold pr-2 ${textColor}`}>Search: </div>
           <input
@@ -158,21 +158,21 @@ export default function Hardware({
               width={120}
               height={100}
               alt="PQ Hive"
-              className="p-0 ml-2 mr-4 w-auto h-auto scale-0 md:scale-100"
+              className="p-0 ml-2 mr-4 w-[130px] h-auto scale-0 md:scale-100"
             />
-            {isAdmin ? (
+            {isAdmin && (
               <AdminControls
                 handleOnAdminClick={handleOnAdminClick}
                 showAdminControls={showAdminControls}
               />
-            ) : null}
+            )}
           </div>
         </div>
       </div>
 
-      <div className="pt-[60px] bg-white">
+      <div className=" bg-white relative">
         {isDataAvailable ? (
-          <div className="fixed grid grid-cols-10 font-bold min-w-[1500px] pl-2">
+          <div className="grid grid-cols-10 font-bold min-w-[1500px] pl-2 sticky">
             <HardwareList
               data={tableHeader}
               isButton={false}
@@ -186,7 +186,7 @@ export default function Hardware({
         )}
 
         {isDataAvailable ? (
-          <div className="bg-slate-100 pl-2 mt-11">
+          <div className="bg-slate-100 pl-2 ">
             <ul>
               {searchedData.map((hardwareInfo) => {
                 //console.log(hardwareInfo)
@@ -214,78 +214,7 @@ export default function Hardware({
             No hardware available for the given search parameter.
           </div>
         ) : (
-          <div className="">
-            <div className="flex pl-28">
-              <div className="-translate-y-2 text-3xl">Enter a search word</div>
-              <div className="flex relative group">
-                <div className="pl-1 hover:-translate-y-0.1">
-                  <BadgeHelp
-                    color="#586AF9"
-                    className=" stroke-2 hover:size-7 hover:-translate-y-0.5 hover:-translate-x-0.5"
-                  />
-                </div>
-                <span className="absolute left-10 -top-7 p-2 rounded-lg border border-black scale-0 transition-all group-hover:scale-100 duration-700 text-black w-[300px]">
-                  i.e. HardwareID, P-specs, or keywords such as generic,
-                  package, etc. <br></br>
-                  <span className="font-bold italic">hint:</span> Type &ldquo;
-                  <span className="italic font-medium">all</span>&rdquo; to
-                  display all hardware
-                </span>
-              </div>
-            </div>
-            <div className="flex pl-56">
-              <div className="flex place-items-end text-4xl pr-4 -translate-y-12">
-                or
-              </div>
-              <div className="flex">
-                <Image
-                  src="/assets/scanner2.png"
-                  width={350}
-                  height={350}
-                  alt="scanner"
-                  className="p-0 ml-2 mr-4 w-auto"
-                />
-                <div className="text-4xl -translate-x-44 flex items-center text-nowrap">
-                  Scan your hardware
-                </div>
-                {isScanReady ? (
-                  <div className="flex items-center pl-2 translate-y-1.5  -translate-x-44">
-                    <CircleCheck color="#ffffff" fill="#00ff00" size={35} />
-                    <div className="pl-1 text-nowrap">Ready to scan</div>
-                  </div>
-                ) : (
-                  <div className="flex items-center pl-2 translate-y-1.5  -translate-x-44">
-                    <CircleX
-                      color="#ffffff"
-                      fill="#BB1616"
-                      size={35}
-                      className="animate-pulse"
-                    />
-                    <button
-                      type="button"
-                      className="ml-1 text-nowrap hover:underline"
-                      onClick={handleScan}
-                    >
-                      Click here to start scanning
-                    </button>
-                    <div className="flex relative group">
-                      <div className="pl-1 hover:-translate-y-0.1">
-                        <BadgeHelp
-                          color="#586AF9"
-                          className=" stroke-2 hover:size-7 hover:-translate-y-0.5 hover:-translate-x-0.5"
-                          size={25}
-                        />
-                      </div>
-                      <span className="absolute left-10 -top-7 p-2 rounded-lg border border-black scale-0 transition-all group-hover:scale-100 duration-700 text-black w-[300px]">
-                        Cursor must be in the search field position to enable
-                        scanning.
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          <Guide isScanReady={isScanReady} handleScan={handleScan} />
         )}
       </div>
     </div>
