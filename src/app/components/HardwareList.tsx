@@ -33,7 +33,9 @@ export default function HardwareList({ data, isButton, user, userID, isAdminActi
       <div className={`grid-cell ${bgColor}`} >{data.hardwareid}</div>
       <div className={`grid-cell ${bgColor}`}>{data.pspec}</div>
       <div className={`grid-cell ${bgColor}`}>{data.type}</div>
-      <div className={`grid-cell ${bgColor} ${textSizeDesc}`}>{data.description}</div>
+      <div className={`grid-cell ${bgColor} ${textSizeDesc} group relative`}>
+        <span>{data.description.substring(0, 35)}...</span>
+        <span className="absolute flex translate-x-36 scale-0 group-hover:scale-100 p-2 bg-white border border-solid border-slate-200 rounded-md">{data.description}</span></div>
       <div className={`grid-cell ${bgColor}  ${textSizeDesc}`}>{data.comments}</div>
       <div className={`grid-cell ${bgColor}`}>{data.owner}</div>
       <div className={`grid-cell ${bgColor}`}>{dateModified}</div>

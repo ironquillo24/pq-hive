@@ -69,7 +69,7 @@ export default function ModalCart() {
                                         <div className={`flex justify-center ${notInclude}`}>{cart.hardwareid}</div>
                                         <div className={`flex justify-center ${notInclude}`}>{cart.pspec}</div>
                                         <div className={`flex justify-center ${notInclude}`}>{cart.type}</div>
-                                        <div className={`flex justify-center ${notInclude} text-center text-wrap`}>{cart.description}</div>
+                                        <div className={`flex justify-center ${notInclude} text-center text-wrap relative group`}>{cart.description.substring(0,30)}...<span className="absolute flex translate-x-36 scale-0 group-hover:scale-100 p-2 bg-white border border-solid border-slate-200 rounded-md text-wrap">{cart.description}</span></div>
                                         <div className={`flex justify-center ${notInclude}`}>{cart.status}</div>
                                         <div className={`flex justify-center ${notInclude}`}>{cart.comment}</div>
                                         <div className="flex justify-center">

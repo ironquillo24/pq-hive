@@ -74,9 +74,9 @@ export default async function MyHardware(){
                         <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.status}</div>
                         <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.hardwareid}</div>
                         <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.pspec}</div>
-                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.description.slice(0,50)}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center relative group'>{hardware.description.slice(0,50)}<span className="absolute flex translate-x-36 scale-0 group-hover:scale-100 p-2 bg-white border border-solid border-slate-200 rounded-md text-wrap">{hardware.description}</span></div>
                         <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.owner}</div>
-                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{hardware.comments.slice(0,50)}</div>
+                        <div className='flex justify-center items-center min-h-[35px] text-xs text-center '>{hardware.comments.slice(0,50)}</div>
                         <div className='flex justify-center items-center min-h-[35px] text-xs text-center'>{String(hardware.dateModified)}</div>
                       </div>
                     </li>
