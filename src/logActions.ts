@@ -29,13 +29,13 @@ export const login = async(
 
     const userdb = await getUserByUsername(formUsername.toLowerCase())
 
-    if ('error' in userdb){
-      return {error: "Can't retrieve data. Please try again later"}
-    }
-
     if (!userdb){
       return {error: "Invalid username or password"}
     } 
+
+    if ('error' in userdb){
+      return {error: "Can't retrieve data. Please try again later"}
+    }
 
     const passwordMatches = await bcrypt.compare(formPassword,userdb.password)
  

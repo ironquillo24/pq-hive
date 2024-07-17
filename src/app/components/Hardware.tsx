@@ -43,7 +43,7 @@ export default function Hardware({
 
   useEffect(() => {
     const changeOnBlur = () => {
-      console.log("onBlur: ", inputRef?.current?.onblur);
+     
       if (document.activeElement === inputRef.current) {
         setIsScanReady(true);
       } else {
