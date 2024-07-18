@@ -28,6 +28,7 @@ const Nav = ({ session }: NavProps) => {
     router.replace("/logout");
   };
 
+  const initials = session.userName?.substring(0,2).toUpperCase()
   return (
     <>
       <Navbar fluid rounded>
@@ -59,7 +60,7 @@ const Nav = ({ session }: NavProps) => {
                     alt="User settings"
                     img={""}
                     rounded
-                    placeholderInitials="RR"
+                    placeholderInitials={initials}
                     bordered
                   />
                 }
