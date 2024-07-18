@@ -88,8 +88,12 @@ const Nav = ({ session }: NavProps) => {
 
             <Navbar.Toggle />
             <Navbar.Collapse>
-              {pages.map((page, ind) => (
-                <Navbar.Link
+              {pages.map((page, ind) => {
+
+                if (page.path === "/returned-hardware" && !session.isAdmin){
+                  return null
+                } else {
+                return <Navbar.Link
                   href={page.path}
                   active={path === page.path}
                   key={ind}
@@ -101,8 +105,8 @@ const Nav = ({ session }: NavProps) => {
                   >
                     {page.title}
                   </span>
-                </Navbar.Link>
-              ))}
+                </Navbar.Link> }
+              })}
               {/*           <Navbar.Link href="/" active><span className="block text-sm text-center font-medium">PQ-HIVES</span></Navbar.Link>
           <Navbar.Link href="/myhardware"><span className="block text-sm text-center font-medium">My Hardware</span></Navbar.Link>
           <Navbar.Link href="/returned-hardware"><span className="block text-sm text-center font-medium">Returned Hardware</span></Navbar.Link> */}

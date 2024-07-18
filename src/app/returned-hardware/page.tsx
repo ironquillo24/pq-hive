@@ -16,6 +16,10 @@ export default async function ReturnedHardware(){
     redirect('/login')
   }
 
+  if (!session.isAdmin){
+    redirect('/')
+  }
+
   const data = await getData(true);
   
   const maintenanceData = await getMaintenanceData();
