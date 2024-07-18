@@ -89,8 +89,10 @@ export const changePassword = async (prevState: { error: undefined | string},
 
   const result = await changePasswordByID(session.userID!,hashedPassword)
 
-  if ('error' in result!) {
-    return {error: "Something went wrong. Please try again later."}
+  if (result){
+    if ('error' in result!) {
+      return {error: "Something went wrong. Please try again later."}
+    }
   }
   return {success: "password changed successfully!"}
 }
