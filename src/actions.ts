@@ -24,7 +24,7 @@ export async function borrowItem(prevState: { error: undefined | string},
   const data = await getByHardwareid(hardwareid);
 
   if (isAdmin){
-    const id = String(formData.get("id"))
+    const id = String(formData.get("id")).replace(/^0+/,'')
     
     const userEmployeeIDArr = await getAllUserEmployeeID()
 
