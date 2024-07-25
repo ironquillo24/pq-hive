@@ -281,7 +281,7 @@ export async function returnAllItems(formData: FormData){
   for (let item of filteredData){
     const uid = (()=> Date.now().toString(36) + Math.random().toString(36))()
     hardwareIdArray.push(item.hardwareid)
-    logArray.push(uid,item.owner,item.status,"RETURNED",userFullname,comments)
+    logArray.push(uid,item.owner,item.status,"RETURNED",userFullname,comments,item.id)
   }
   
   const result = await updateMultipleHardware(info,hardwareIdArray)
