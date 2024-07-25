@@ -39,7 +39,7 @@ export async function borrowItem(prevState: { error: undefined | string},
     if (data.status.toLowerCase().includes('storage')) {
       
       const result = await updateSingleData(comments, newOwner, 'IN USE', data.id)
-      const log = await updateLogs(uid,previousOwner,previousStatus, 'IN USE',newOwner, comments)
+      const log = await updateLogs(uid,previousOwner,previousStatus, 'IN USE',newOwner, comments,data.id)
       
       revalidatePath('/','layout')
       revalidatePath('/myhardware','layout')
@@ -70,7 +70,7 @@ export async function returnItem(formData: FormData){
   
     if (data.status.toLowerCase().includes('use')&&(data.owner.includes(newOwner))) {
       const result = await updateSingleData(comments, newOwner, newStatus, data.id)
-      const log = await updateLogs(uid,previousOwner,previousStatus, newStatus ,newOwner, comments)
+      const log = await updateLogs(uid,previousOwner,previousStatus, newStatus ,newOwner, comments,data.id)
       revalidatePath(pathname)
       redirect(redirectPathname)
     } else{
@@ -93,7 +93,7 @@ export async function acknowledge(formData: FormData){
   
     if (data.status.includes('RETURNED')) {
       const result = await updateSingleData(comments, newOwner, newStatus, data.id)
-      const log = await updateLogs(uid,data.owner,data.status, newStatus ,newOwner, comments)
+      const log = await updateLogs(uid,data.owner,data.status, newStatus ,newOwner, comments,data.id)
       revalidatePath('/')
       revalidatePath('/returned-hardware')
       redirect('/returned-hardware')
@@ -121,7 +121,7 @@ export async function changeOwner(formData: FormData){
   
   if (data.status.includes('USE')&&(data.owner===previousOwner)) {
     const result = await updateSingleData(comments, newOwner, newStatus, data.id)
-    const log = await updateLogs(uid,data.owner,data.status, newStatus ,newOwner, comments)
+    const log = await updateLogs(uid,data.owner,data.status, newStatus ,newOwner, comments,data.id)
     revalidatePath(pathname)
     redirect(redirectPathname)
   } else{
@@ -144,7 +144,7 @@ export async function borrowCart(formData: FormData){
 
   const data = await getCartDataByUserid(userID);
 
-  const availData = data.filter((harware) => harware.status === 'IN STORAGE')
+  const availData = data.filter((hardware) => hardware.status === 'IN STORAGE')
 
   const userInput = [comments,newOwner,'IN USE']
 
@@ -157,7 +157,7 @@ export async function borrowCart(formData: FormData){
     const uid = (()=> Date.now().toString(36) + Math.random().toString(36))()
     hardwareIdArray.push(item.hardwareid)
     cartItemforDelete.push(item.cartid)
-    logArray.push(uid,item.owner,item.status,"IN USE",newOwner,comments)
+    logArray.push(uid,item.owner,item.status,"IN USE",newOwner,comments,item.id)
     
      /* [logid,previousOwner,previousStatus,newStatus,newOwner,comments] */
   }

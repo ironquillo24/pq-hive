@@ -180,7 +180,7 @@ export async function updateSingleData(comments: string, owner: string, status: 
   }
 }
 
-export async function updateLogs(logid: string, previousOwner: string, previousStatus: string, newStatus: string, newOwner: string, comments: string){
+export async function updateLogs(logid: string, previousOwner: string, previousStatus: string, newStatus: string, newOwner: string, comments: string, hardwareid_pk: number){
 
   const pool= mysql.createPool({
     host: process.env.MYSQL_HOST,
@@ -191,8 +191,8 @@ export async function updateLogs(logid: string, previousOwner: string, previousS
 
   try{
     const result = await pool.query(
-      `INSERT INTO log_schema (logid,previousOwner,previousStatus,newStatus,newOwner,comments) VALUES (?,?,?,?,?,?)`,
-      [logid,previousOwner,previousStatus,newStatus,newOwner,comments]
+      `INSERT INTO log_schema (logid,previousOwner,previousStatus,newStatus,newOwner,comments,hardwareid_pk) VALUES (?,?,?,?,?,?,?)`,
+      [logid,previousOwner,previousStatus,newStatus,newOwner,comments,hardwareid_pk]
     )
     pool.end()
     
@@ -257,6 +257,7 @@ export async function getUserByUsername(username: string): Promise<User | error>
 
 export interface CartData{
   cartid: string,
+  id: number,
   hardwareid: string,
   pspec: string,
   type: string,
@@ -276,7 +277,8 @@ export async function getCartDataByUserid(userid: number){
 
   try{
     const result = await pool.query(`SELECT 
-    cart_logs.cartid as cartid, 
+    cart_logs.cartid as cartid,
+    masterlist.id as id, 
     masterlist.hardwareid as hardwareid,
     masterlist.pspec as pspec, 
     masterlist.type as type,
@@ -537,7 +539,7 @@ export async function getAllUserEmployeeID(){
   }
 }
 
-export async function insertMultipleLogs(data: string[]){
+export async function insertMultipleLogs(data: (string | number)[]){
 
   const pool= mysql.createPool({
     host: process.env.MYSQL_HOST,
@@ -548,16 +550,16 @@ export async function insertMultipleLogs(data: string[]){
 
   let valueConstruct = ""
 
-  for(let i = 0; i < data.length/6 ; i++) {
-    valueConstruct += "(?,?,?,?,?,?)"
-    if (i !== (data.length/6)-1)
+  for(let i = 0; i < data.length/7 ; i++) {
+    valueConstruct += "(?,?,?,?,?,?,?)"
+    if (i !== (data.length/7)-1)
       valueConstruct += ","
   }
 
   try{
     const result = await pool.query(
       `INSERT INTO log_schema 
-        (logid,previousOwner,previousStatus,newStatus,newOwner,comments)
+        (logid,previousOwner,previousStatus,newStatus,newOwner,comments,hardwareid_pk)
         VALUES ${valueConstruct};`, data
       /* [logid,previousOwner,previousStatus,newStatus,newOwner,comments] */
     )

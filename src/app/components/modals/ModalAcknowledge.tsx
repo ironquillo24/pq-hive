@@ -52,7 +52,7 @@ export default function ModalAcknowledge() {
                             <div className="flex items-center">{hardware.pspec}</div>
                             <div className='flex items-center font-bold'>Type:</div>
                             <div className="flex items-center">{hardware.type}</div>
-                            <div className='flex items-center font-bold items-center'>Description:</div>
+                            <div className='flex items-center font-bold'>Description:</div>
                             <div className="flex text-xs text-wrap items-center">{hardware.description}...</div>
                             <div className='flex items-center font-bold'>Status:</div>
                             <div className="flex items-center"><s>{hardware.status}</s> ➠<span className="font-bold text-red-700">IN STORAGE</span></div>
